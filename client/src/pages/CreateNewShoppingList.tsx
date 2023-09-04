@@ -9,6 +9,8 @@ import * as yup from "yup";
 import { useMutation } from "@tanstack/react-query";
 import { createShoppingList, CreateShoppingListsProps } from "../api/service";
 import { useQueryClient } from "@tanstack/react-query";
+import { useSnackbar, VariantType } from "notistack";
+import { NOTIFICATION_MESSAGES } from "../configs/notificationMessages";
 
 const defaultValues: CreateShoppingListsProps = {
   title: "",
@@ -28,15 +30,22 @@ const validationSchema = yup
 
 export const CreateNewShoppingList = () => {
   const queryClient = useQueryClient();
+  const { enqueueSnackbar } = useSnackbar();
+
+  const handleShowSnackbar = (message: string, variant: VariantType) => {
+    enqueueSnackbar(message, { variant });
+  };
 
   const addListMutation = useMutation({
     mutationFn: (newList: CreateShoppingListsProps) =>
       createShoppingList(newList),
     onError: (error) => {
       console.log(error);
+      handleShowSnackbar(NOTIFICATION_MESSAGES.ERROR, "error");
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["shoppingListsData"] });
+      handleShowSnackbar(NOTIFICATION_MESSAGES.SUCCESS, "success");
     },
   });
 

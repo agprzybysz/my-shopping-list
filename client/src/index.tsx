@@ -11,6 +11,7 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import theme from "./theme";
 import { BrowserRouter as Router } from "react-router-dom";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { SnackbarProvider } from "notistack";
 
 import App from "./App";
 
@@ -24,10 +25,16 @@ root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Router>
-          <App />
-        </Router>
+        <SnackbarProvider
+          autoHideDuration={5000}
+          anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+          maxSnack={5}
+        >
+          <CssBaseline />
+          <Router>
+            <App />
+          </Router>
+        </SnackbarProvider>
       </ThemeProvider>
     </QueryClientProvider>
   </React.StrictMode>
