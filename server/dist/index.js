@@ -17,29 +17,44 @@ app.listen(port, () => {
 app.get("/test", (req, res) => {
     res.json("Hello World From the Typescript Server!");
 });
+// initial data
 const lists = [
     {
-        name: "Weekly shopping",
-        createdAt: "Jan 9, 2022",
+        id: 0,
+        title: "Weekly shopping",
+        shop: "Lidl",
+        createdAt: new Date(2023, 0, 1, 11, 0).valueOf(),
         numberOfProduts: 9,
     },
     {
-        name: "Birthday shopping",
-        createdAt: "Mar 9, 2022",
+        id: 1,
+        title: "Birthday shopping",
+        shop: "Lidl",
+        createdAt: new Date(2023, 0, 3, 11, 0).valueOf(),
         numberOfProduts: 19,
     },
     {
-        name: "Pizza",
-        createdAt: "Dec 9, 2022",
+        id: 2,
+        title: "Pizza",
+        shop: "Lidl",
+        createdAt: new Date(2023, 0, 7, 11, 0).valueOf(),
         numberOfProduts: 29,
     },
     {
-        name: "Grocery",
-        createdAt: "Dec 12, 2022",
+        id: 3,
+        title: "Grocery",
+        shop: "market",
+        createdAt: new Date(2023, 0, 10, 11, 0).valueOf(),
         numberOfProduts: 29,
     },
 ];
-//all created lists
+//get all created lists
 app.get("/lists", (req, res) => {
     res.json(lists);
+});
+//create new list
+app.post("/lists", (req, res) => {
+    const newList = Object.assign(Object.assign({}, req.body), { createdAt: new Date().getTime(), id: lists.length, numberOfProduts: 0 });
+    lists.push(newList);
+    res.status(201).json("New List created");
 });

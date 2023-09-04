@@ -1,7 +1,6 @@
 import * as React from "react";
-import { Controller, Control, FieldValues, FieldError } from "react-hook-form";
+import { Controller } from "react-hook-form";
 import TextField from "@mui/material/TextField";
-import { FormData } from "../pages/CreateNewShoppingList";
 
 type FormInputProps = {
   name: string;

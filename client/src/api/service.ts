@@ -3,17 +3,15 @@ const BASE_URL = "http://localhost:8000";
 
 export type GetShoppingListsProps = {
   id: number;
-  name: string;
+  title: string;
   shop: string;
   createdAt: string;
   numberOfProduts?: number;
 };
 
 export type CreateShoppingListsProps = {
-  id: number;
-  name: string;
+  title: string;
   shop: string;
-  createdAt: Date;
 };
 
 export const getShoppingLists = async (): Promise<GetShoppingListsProps[]> => {
@@ -21,7 +19,7 @@ export const getShoppingLists = async (): Promise<GetShoppingListsProps[]> => {
     const response: AxiosResponse<GetShoppingListsProps[]> = await axios.get(
       `${BASE_URL}/lists`
     );
-    console.log(response.data);
+    //console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -37,7 +35,7 @@ export const createShoppingList = async (
       `${BASE_URL}/lists`,
       newList
     );
-    console.log(response.data);
+    //   console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);

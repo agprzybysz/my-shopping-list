@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 import { FormInput } from "../components/FormInput";
 import { AppButton as Button } from "../components/Button";
@@ -7,22 +7,17 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useMutation } from "@tanstack/react-query";
-import { createShoppingList, getShoppingLists } from "../api/service";
-import { CreateShoppingListsProps, GetShoppingListsProps } from "../api/service";
+import { createShoppingList, CreateShoppingListsProps } from "../api/service";
+import { useQueryClient } from "@tanstack/react-query";
 
-export type FormData = {
-  name: string;
-  shop: string;
-};
-
-const defaultValues: FormData = {
-  name: "",
+const defaultValues: CreateShoppingListsProps = {
+  title: "",
   shop: "",
 };
 
 const validationSchema = yup
   .object({
-    name: yup
+    title: yup
       .string()
       .trim()
       .required("Name is Required")
@@ -32,19 +27,17 @@ const validationSchema = yup
   .required();
 
 export const CreateNewShoppingList = () => {
-  const [totalRecords, setTotalRecords] = useState<number>(0);
-
-  const getTotalRecords = () => {
-    //const res: GetShoppingListsProps[] = getShoppingLists();
-    //console.log(res)
-    //setTotalRecords(res.length);
-  };
-
-  getTotalRecords();
+  const queryClient = useQueryClient();
 
   const addListMutation = useMutation({
     mutationFn: (newList: CreateShoppingListsProps) =>
       createShoppingList(newList),
+    onError: (error) => {
+      console.log(error);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["shoppingListsData"] });
+    },
   });
 
   const {
@@ -52,20 +45,16 @@ export const CreateNewShoppingList = () => {
     reset,
     control,
     formState: { errors, isSubmitSuccessful },
-  } = useForm<FormData>({
+  } = useForm<CreateShoppingListsProps>({
     defaultValues: defaultValues,
     mode: "onChange",
     resolver: yupResolver(validationSchema),
   });
 
-  const listsCreated = [];
-
-  const onSubmit = (data: FormData) => {
+  const onSubmit = (dataSubmitted: CreateShoppingListsProps) => {
     addListMutation.mutate({
-      id: listsCreated.length,
-      name: data.name,
-      shop: data.shop,
-      createdAt: new Date(),
+      title: dataSubmitted.title,
+      shop: dataSubmitted.shop,
     });
   };
 

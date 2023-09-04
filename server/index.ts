@@ -22,39 +22,57 @@ app.get("/test", (req: Request, res: Response) => {
 
 type ListProp = {
   id: number;
-  name: string;
-  createdAt: string;
+  title: string;
+  shop: string;
+  createdAt: number;
   numberOfProduts?: number;
 };
 
+// initial data
 const lists: ListProp[] = [
   {
     id: 0,
-    name: "Weekly shopping",
-    createdAt: "Jan 9, 2022",
+    title: "Weekly shopping",
+    shop: "Lidl",
+    createdAt: new Date(2023, 0, 1, 11, 0).valueOf(),
     numberOfProduts: 9,
   },
   {
     id: 1,
-    name: "Birthday shopping",
-    createdAt: "Mar 9, 2022",
+    title: "Birthday shopping",
+    shop: "Lidl",
+    createdAt: new Date(2023, 0, 3, 11, 0).valueOf(),
     numberOfProduts: 19,
   },
   {
     id: 2,
-    name: "Pizza",
-    createdAt: "Dec 9, 2022",
+    title: "Pizza",
+    shop: "Lidl",
+    createdAt: new Date(2023, 0, 7, 11, 0).valueOf(),
     numberOfProduts: 29,
   },
   {
     id: 3,
-    name: "Grocery",
-    createdAt: "Dec 12, 2022",
+    title: "Grocery",
+    shop: "market",
+    createdAt: new Date(2023, 0, 10, 11, 0).valueOf(),
     numberOfProduts: 29,
   },
 ];
 
-//all created lists
+//get all created lists
 app.get("/lists", (req: Request, res: Response) => {
   res.json(lists);
+});
+
+//create new list
+app.post("/lists", (req, res) => {
+  const newList: ListProp = {
+    ...req.body,
+    createdAt: new Date().getTime(),
+    id: lists.length,
+    numberOfProduts: 0,
+  };
+  lists.push(newList);
+  res.status(201).json("New List created");
 });

@@ -9,54 +9,52 @@ import {
   ListItemText,
   ListItemButton,
 } from "@mui/material";
-import { QueryClient, useQueryClient, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getShoppingLists, GetShoppingListsProps } from "../api/service";
 import { Loader } from "../components/Loader";
 import { Error } from "../components/Error";
 
-
-
 export const ShoppingLists = () => {
-  const queryClient = useQueryClient();
-
   const { data, isLoading, isError, isSuccess } = useQuery({
     queryKey: ["shoppingListsData"],
     queryFn: () => getShoppingLists(),
   });
 
-  const listMenu: JSX.Element[] | undefined = data?.map((item: GetShoppingListsProps) => (
-    <ListItem
-      key={item.name}
-      disablePadding
-      sx={{ borderBottom: "1px solid rgba(0, 0, 0, 0.12)" }}
-    >
-      <ListItemButton sx={{ px: 0 }}>
-        <ListItemAvatar>
-          <Avatar sx={{ backgroundColor: "orange" }}>
-            {item.name.slice(0, 1)}
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText
-          disableTypography
-          primary={
-            <Typography variant="body1" component="div">
-              {item.name}
-            </Typography>
-          }
-          secondary={
-            <Box sx={{ color: "rgba(0, 0, 0, 0.6)" }}>
-              <Typography variant="body2" component="p" sx={{ mt: 0.5 }}>
-                Created at: {item.createdAt}
+  const listMenu: JSX.Element[] | undefined = data?.map(
+    (item: GetShoppingListsProps) => (
+      <ListItem
+        key={item.id}
+        disablePadding
+        sx={{ borderBottom: "1px solid rgba(0, 0, 0, 0.12)" }}
+      >
+        <ListItemButton sx={{ px: 0 }}>
+          <ListItemAvatar>
+            <Avatar sx={{ backgroundColor: "orange" }}>
+              {item.title.slice(0, 1)}
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText
+            disableTypography
+            primary={
+              <Typography variant="body1" component="div">
+                {item.title}
               </Typography>
-              <Typography variant="body2" component="p">
-                Items: {item.numberOfProduts}
-              </Typography>
-            </Box>
-          }
-        />
-      </ListItemButton>
-    </ListItem>
-  ));
+            }
+            secondary={
+              <Box sx={{ color: "rgba(0, 0, 0, 0.6)" }}>
+                <Typography variant="body2" component="p" sx={{ mt: 0.5 }}>
+                  Created at: {new Date(item.createdAt).toLocaleString()}
+                </Typography>
+                <Typography variant="body2" component="p">
+                  Items: {item.numberOfProduts}
+                </Typography>
+              </Box>
+            }
+          />
+        </ListItemButton>
+      </ListItem>
+    )
+  );
 
   return (
     <Box>
