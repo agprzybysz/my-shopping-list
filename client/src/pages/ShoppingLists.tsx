@@ -8,7 +8,10 @@ import {
   Avatar,
   ListItemText,
   ListItemButton,
+  IconButton,
 } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import { useQuery } from "@tanstack/react-query";
 import { getShoppingLists, GetShoppingListsProps } from "../api/service";
 import { Loader } from "../components/Loader";
@@ -26,6 +29,16 @@ export const ShoppingLists = () => {
         key={item.id}
         disablePadding
         sx={{ borderBottom: "1px solid rgba(0, 0, 0, 0.12)" }}
+        secondaryAction={
+          <Box>
+            <IconButton aria-label="edit" size="large">
+              <EditIcon />
+            </IconButton>
+            <IconButton edge="end" aria-label="delete" size="large">
+              <DeleteIcon />
+            </IconButton>
+          </Box>
+        }
       >
         <ListItemButton sx={{ px: 0 }}>
           <ListItemAvatar>
@@ -43,7 +56,12 @@ export const ShoppingLists = () => {
             secondary={
               <Box sx={{ color: "rgba(0, 0, 0, 0.6)" }}>
                 <Typography variant="body2" component="p" sx={{ mt: 0.5 }}>
-                  Created at: {new Date(item.createdAt).toLocaleString()}
+                  Created at:{" "}
+                  {
+                    new Date(item.createdAt)
+                      .toLocaleString("en-GB")
+                      .split(",")[0]
+                  }
                 </Typography>
                 <Typography variant="body2" component="p">
                   Items: {item.numberOfProduts}
