@@ -55,6 +55,15 @@ app.get("/lists", (req, res) => {
 //create new list
 app.post("/lists", (req, res) => {
     const newList = Object.assign(Object.assign({}, req.body), { createdAt: new Date().getTime(), id: lists.length, numberOfProduts: 0 });
+    console.log(req.body);
     lists.push(newList);
-    res.status(201).json("New List created");
+    return res.send();
+});
+//delete list
+app.delete("/lists", (req, res) => {
+    const { id } = req.body;
+    console.log(id);
+    const listIndex = lists.findIndex((i) => i.id == id);
+    lists.splice(listIndex, 1);
+    return res.send();
 });

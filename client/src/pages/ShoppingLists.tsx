@@ -12,10 +12,16 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { useQuery } from "@tanstack/react-query";
-import { getShoppingLists, GetShoppingListsProps } from "../api/service";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  getShoppingLists,
+  GetShoppingListsProps,
+  deleteShoppingList,
+} from "../api/service";
 import { Loader } from "../components/Loader";
 import { Error } from "../components/Error";
+import { useSnackbar, VariantType } from "notistack";
+import { NOTIFICATION_MESSAGES } from "../configs/notificationMessages";
 
 export const ShoppingLists = () => {
   const { data, isLoading, isError, isSuccess } = useQuery({
@@ -23,56 +29,81 @@ export const ShoppingLists = () => {
     queryFn: () => getShoppingLists(),
   });
 
-  const listMenu: JSX.Element[] | undefined = data?.map(
-    (item: GetShoppingListsProps) => (
-      <ListItem
-        key={item.id}
-        disablePadding
-        sx={{ borderBottom: "1px solid rgba(0, 0, 0, 0.12)" }}
-        secondaryAction={
-          <Box>
-            <IconButton aria-label="edit" size="large">
-              <EditIcon />
-            </IconButton>
-            <IconButton edge="end" aria-label="delete" size="large">
-              <DeleteIcon />
-            </IconButton>
-          </Box>
-        }
-      >
-        <ListItemButton sx={{ px: 0 }}>
-          <ListItemAvatar>
-            <Avatar sx={{ backgroundColor: "orange" }}>
-              {item.title.slice(0, 1)}
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText
-            disableTypography
-            primary={
-              <Typography variant="body1" component="div">
-                {item.title}
-              </Typography>
-            }
-            secondary={
-              <Box sx={{ color: "rgba(0, 0, 0, 0.6)" }}>
-                <Typography variant="body2" component="p" sx={{ mt: 0.5 }}>
-                  Created at:{" "}
-                  {
-                    new Date(item.createdAt)
-                      .toLocaleString("en-GB")
-                      .split(",")[0]
-                  }
-                </Typography>
-                <Typography variant="body2" component="p">
-                  Items: {item.numberOfProduts}
-                </Typography>
+  const queryClient = useQueryClient();
+  const { enqueueSnackbar } = useSnackbar();
+
+  const handleShowSnackbar = (message: string, variant: VariantType) => {
+    enqueueSnackbar(message, { variant });
+  };
+
+  const deleteListMutation = useMutation({
+    mutationFn: (id: number) => deleteShoppingList(id),
+    onError: (error) => {
+      console.log(error);
+      handleShowSnackbar(NOTIFICATION_MESSAGES.ERROR, "error");
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["shoppingListsData"] });
+      handleShowSnackbar(NOTIFICATION_MESSAGES.SUCCESS.LIST_DELETED, "success");
+    },
+  });
+
+  const listMenu: JSX.Element[] =
+    isSuccess && data.length > 0
+      ? data.map((item: GetShoppingListsProps) => (
+          <ListItem
+            key={item.id}
+            disablePadding
+            sx={{ borderBottom: "1px solid rgba(0, 0, 0, 0.12)" }}
+            secondaryAction={
+              <Box>
+                <IconButton aria-label="edit" size="large">
+                  <EditIcon />
+                </IconButton>
+                <IconButton
+                  edge="end"
+                  aria-label="delete"
+                  size="large"
+                  onClick={() => deleteListMutation.mutate(item.id)}
+                >
+                  <DeleteIcon />
+                </IconButton>
               </Box>
             }
-          />
-        </ListItemButton>
-      </ListItem>
-    )
-  );
+          >
+            <ListItemButton sx={{ px: 0 }}>
+              <ListItemAvatar>
+                <Avatar sx={{ backgroundColor: "orange" }}>
+                  {item.title.slice(0, 1)}
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText
+                disableTypography
+                primary={
+                  <Typography variant="body1" component="div">
+                    {item.title}
+                  </Typography>
+                }
+                secondary={
+                  <Box sx={{ color: "rgba(0, 0, 0, 0.6)" }}>
+                    <Typography variant="body2" component="p" sx={{ mt: 0.5 }}>
+                      Created at:{" "}
+                      {
+                        new Date(item.createdAt)
+                          .toLocaleString("en-GB")
+                          .split(",")[0]
+                      }
+                    </Typography>
+                    <Typography variant="body2" component="p">
+                      Items: {item.numberOfProduts}
+                    </Typography>
+                  </Box>
+                }
+              />
+            </ListItemButton>
+          </ListItem>
+        ))
+      : [];
 
   return (
     <Box>

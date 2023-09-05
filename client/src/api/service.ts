@@ -19,7 +19,6 @@ export const getShoppingLists = async (): Promise<GetShoppingListsProps[]> => {
     const response: AxiosResponse<GetShoppingListsProps[]> = await axios.get(
       `${BASE_URL}/lists`
     );
-    //console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -35,7 +34,20 @@ export const createShoppingList = async (
       `${BASE_URL}/lists`,
       newList
     );
-    //   console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const deleteShoppingList = async (listId: number): Promise<void> => {
+  try {
+    const response: AxiosResponse<void> = await axios.delete(
+      `${BASE_URL}/lists`,
+      {
+        data: { id: listId },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error(error);
