@@ -6,11 +6,11 @@ import { useForm } from "react-hook-form";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createShoppingList, CreateShoppingListsProps } from "../api/service";
-import { useQueryClient } from "@tanstack/react-query";
 import { useSnackbar, VariantType } from "notistack";
 import { NOTIFICATION_MESSAGES } from "../configs/notificationMessages";
+import { useNavigate } from "react-router-dom";
 
 const defaultValues: CreateShoppingListsProps = {
   title: "",
@@ -31,6 +31,7 @@ const validationSchema = yup
 export const CreateNewShoppingList = () => {
   const queryClient = useQueryClient();
   const { enqueueSnackbar } = useSnackbar();
+  const navigate = useNavigate();
 
   const handleShowSnackbar = (message: string, variant: VariantType) => {
     enqueueSnackbar(message, { variant });
@@ -43,9 +44,11 @@ export const CreateNewShoppingList = () => {
       console.log(error);
       handleShowSnackbar(NOTIFICATION_MESSAGES.ERROR, "error");
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["shoppingListsData"] });
       handleShowSnackbar(NOTIFICATION_MESSAGES.SUCCESS.LIST_CREATED, "success");
+      console.log(data.id);
+      navigate(`/lists/${data.id}`);
     },
   });
 

@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from "axios";
 const BASE_URL = "http://localhost:8000";
 
 export type GetShoppingListsProps = {
-  id: number;
+  id: string;
   title: string;
   shop: string;
   createdAt: string;
@@ -28,9 +28,9 @@ export const getShoppingLists = async (): Promise<GetShoppingListsProps[]> => {
 
 export const createShoppingList = async (
   newList: CreateShoppingListsProps
-): Promise<void> => {
+): Promise<any> => {
   try {
-    const response: AxiosResponse<void> = await axios.post(
+    const response: AxiosResponse<any> = await axios.post(
       `${BASE_URL}/lists`,
       newList
     );
@@ -40,7 +40,7 @@ export const createShoppingList = async (
   }
 };
 
-export const deleteShoppingList = async (listId: number): Promise<void> => {
+export const deleteShoppingList = async (listId: string): Promise<void> => {
   try {
     const response: AxiosResponse<void> = await axios.delete(
       `${BASE_URL}/lists`,

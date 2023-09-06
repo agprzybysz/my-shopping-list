@@ -27,12 +27,11 @@ app.get("/lists", (req, res) => {
 app.post("/lists", (req, res) => {
     const newList = Object.assign(Object.assign({}, req.body), { createdAt: new Date().getTime(), id: (0, uuid_1.v4)(), numberOfProduts: 0 });
     ShoppingList_1.shoppingLists.push(newList);
-    return res.send();
+    return res.send(newList);
 });
 //delete list
 app.delete("/lists", (req, res) => {
     const { id } = req.body;
-    console.log(id);
     const listIndex = ShoppingList_1.shoppingLists.findIndex((i) => i.id == id);
     ShoppingList_1.shoppingLists.splice(listIndex, 1);
     return res.send();

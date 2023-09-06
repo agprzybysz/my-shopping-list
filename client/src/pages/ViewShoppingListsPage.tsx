@@ -38,7 +38,7 @@ export const ShoppingListsView = () => {
   };
 
   const deleteListMutation = useMutation({
-    mutationFn: (id: number) => deleteShoppingList(id),
+    mutationFn: (id: string) => deleteShoppingList(id),
     onError: (error) => {
       console.log(error);
       handleShowSnackbar(NOTIFICATION_MESSAGES.ERROR, "error");
