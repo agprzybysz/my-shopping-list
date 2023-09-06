@@ -1,7 +1,8 @@
 import dotenv from "dotenv";
 import express, { Express, Request, Response } from "express";
-import path from "path";
 import cors from "cors";
+import { v4 as uuidv4 } from "uuid";
+import { shoppingLists as lists, ShoppingListProp } from "./db/ShoppingList";
 
 dotenv.config();
 
@@ -20,46 +21,6 @@ app.get("/test", (req: Request, res: Response) => {
   res.json("Hello World From the Typescript Server!");
 });
 
-type ListProp = {
-  id: number;
-  title: string;
-  shop: string;
-  createdAt: number;
-  numberOfProduts?: number;
-};
-
-// initial data
-const lists: ListProp[] = [
-  {
-    id: 0,
-    title: "Weekly shopping",
-    shop: "Lidl",
-    createdAt: new Date(2023, 0, 1, 11, 0).valueOf(),
-    numberOfProduts: 9,
-  },
-  {
-    id: 1,
-    title: "Birthday shopping",
-    shop: "Lidl",
-    createdAt: new Date(2023, 0, 3, 11, 0).valueOf(),
-    numberOfProduts: 19,
-  },
-  {
-    id: 2,
-    title: "Pizza",
-    shop: "Lidl",
-    createdAt: new Date(2023, 0, 7, 11, 0).valueOf(),
-    numberOfProduts: 29,
-  },
-  {
-    id: 3,
-    title: "Grocery",
-    shop: "market",
-    createdAt: new Date(2023, 0, 10, 11, 0).valueOf(),
-    numberOfProduts: 29,
-  },
-];
-
 //get all created lists
 app.get("/lists", (req: Request, res: Response) => {
   res.json(lists);
@@ -67,20 +28,19 @@ app.get("/lists", (req: Request, res: Response) => {
 
 //create new list
 app.post("/lists", (req, res) => {
-  const newList: ListProp = {
+  const newList: ShoppingListProp = {
     ...req.body,
     createdAt: new Date().getTime(),
-    id: lists.length,
+    id: uuidv4(),
     numberOfProduts: 0,
   };
-  console.log(req.body);
   lists.push(newList);
   return res.send();
 });
 
 //delete list
 app.delete("/lists", (req, res) => {
-  const { id }: { id: number } = req.body;
+  const { id }: { id: string } = req.body;
   console.log(id);
   const listIndex = lists.findIndex((i) => i.id == id);
   lists.splice(listIndex, 1);

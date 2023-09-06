@@ -6,6 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
+const uuid_1 = require("uuid");
+const ShoppingList_1 = require("./db/ShoppingList");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
@@ -17,53 +19,21 @@ app.listen(port, () => {
 app.get("/test", (req, res) => {
     res.json("Hello World From the Typescript Server!");
 });
-// initial data
-const lists = [
-    {
-        id: 0,
-        title: "Weekly shopping",
-        shop: "Lidl",
-        createdAt: new Date(2023, 0, 1, 11, 0).valueOf(),
-        numberOfProduts: 9,
-    },
-    {
-        id: 1,
-        title: "Birthday shopping",
-        shop: "Lidl",
-        createdAt: new Date(2023, 0, 3, 11, 0).valueOf(),
-        numberOfProduts: 19,
-    },
-    {
-        id: 2,
-        title: "Pizza",
-        shop: "Lidl",
-        createdAt: new Date(2023, 0, 7, 11, 0).valueOf(),
-        numberOfProduts: 29,
-    },
-    {
-        id: 3,
-        title: "Grocery",
-        shop: "market",
-        createdAt: new Date(2023, 0, 10, 11, 0).valueOf(),
-        numberOfProduts: 29,
-    },
-];
 //get all created lists
 app.get("/lists", (req, res) => {
-    res.json(lists);
+    res.json(ShoppingList_1.shoppingLists);
 });
 //create new list
 app.post("/lists", (req, res) => {
-    const newList = Object.assign(Object.assign({}, req.body), { createdAt: new Date().getTime(), id: lists.length, numberOfProduts: 0 });
-    console.log(req.body);
-    lists.push(newList);
+    const newList = Object.assign(Object.assign({}, req.body), { createdAt: new Date().getTime(), id: (0, uuid_1.v4)(), numberOfProduts: 0 });
+    ShoppingList_1.shoppingLists.push(newList);
     return res.send();
 });
 //delete list
 app.delete("/lists", (req, res) => {
     const { id } = req.body;
     console.log(id);
-    const listIndex = lists.findIndex((i) => i.id == id);
-    lists.splice(listIndex, 1);
+    const listIndex = ShoppingList_1.shoppingLists.findIndex((i) => i.id == id);
+    ShoppingList_1.shoppingLists.splice(listIndex, 1);
     return res.send();
 });
