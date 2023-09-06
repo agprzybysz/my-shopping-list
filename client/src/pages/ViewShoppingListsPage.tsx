@@ -22,8 +22,9 @@ import { Loader } from "../components/Loader";
 import { Error } from "../components/Error";
 import { useSnackbar, VariantType } from "notistack";
 import { NOTIFICATION_MESSAGES } from "../configs/notificationMessages";
+import { NavLink } from "react-router-dom";
 
-export const ShoppingLists = () => {
+export const ShoppingListsView = () => {
   const { data, isLoading, isError, isSuccess } = useQuery({
     queryKey: ["shoppingListsData"],
     queryFn: () => getShoppingLists(),
@@ -71,7 +72,11 @@ export const ShoppingLists = () => {
               </Box>
             }
           >
-            <ListItemButton sx={{ px: 0 }}>
+            <ListItemButton
+              sx={{ px: 0 }}
+              component={NavLink}
+              to={`/lists/${item.id}`}
+            >
               <ListItemAvatar>
                 <Avatar sx={{ backgroundColor: "orange" }}>
                   {item.title.slice(0, 1)}

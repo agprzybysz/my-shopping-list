@@ -1,10 +1,10 @@
-import { Home } from "../pages/Home";
+import { Home } from "../pages/HomePage";
 import { ErrorPage } from "../pages/ErrorPage";
-import { CreateNewShoppingList } from "../pages/CreateNewShoppingList";
-import { ShoppingLists } from "../pages/ShoppingLists";
+import { CreateNewShoppingList } from "../pages/CreateNewShoppingListPage";
+import { ShoppingListsView } from "../pages/ViewShoppingListsPage";
+import { ShoppingList } from "../pages/ShoppingListPage";
 import HomeIcon from "@mui/icons-material/Home";
 import AddIcon from "@mui/icons-material/Add";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import ViewListIcon from "@mui/icons-material/ViewList";
 
 type RoutesConfigProps = {
@@ -29,9 +29,13 @@ export const routesConfig: RoutesConfigProps[] = [
   },
   {
     path: "/lists",
-    element: <ShoppingLists />,
+    element: <ShoppingListsView />,
     menuIcon: <ViewListIcon />,
     menuText: "View Shopping Lists",
+  },
+  {
+    path: "/lists/:id",
+    element: <ShoppingList />,
   },
   {
     path: "*",
