@@ -16,9 +16,6 @@ const port = process.env.PORT || 8000;
 app.listen(port, () => {
     console.log(`App listening on port ${port}`);
 });
-app.get("/test", (req, res) => {
-    res.json("Hello World From the Typescript Server!");
-});
 //get all created lists
 app.get("/lists", (req, res) => {
     res.json(ShoppingList_1.shoppingLists);
