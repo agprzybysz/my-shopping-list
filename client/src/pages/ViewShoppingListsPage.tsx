@@ -14,7 +14,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
-  getShoppingLists,
+  getAllShoppingLists,
   GetShoppingListsProps,
   deleteShoppingList,
 } from "../api/service";
@@ -27,7 +27,7 @@ import { NavLink } from "react-router-dom";
 export const ShoppingListsView = () => {
   const { data, isLoading, isError, isSuccess } = useQuery({
     queryKey: ["shoppingListsData"],
-    queryFn: () => getShoppingLists(),
+    queryFn: () => getAllShoppingLists(),
   });
 
   const queryClient = useQueryClient();
