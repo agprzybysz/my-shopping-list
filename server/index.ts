@@ -17,6 +17,10 @@ app.listen(port, () => {
   console.log(`App listening on port ${port}`);
 });
 
+app.get("/test", (req: Request, res: Response) => {
+  res.json("Hello World From the Typescript Server!");
+});
+
 //get all created lists
 app.get("/lists", (req: Request, res: Response) => {
   res.json(lists);
