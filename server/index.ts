@@ -25,7 +25,9 @@ app.get("/lists", (req: Request, res: Response) => {
 // get list by id
 app.get("/lists/:id", async (req, res) => {
   const { id }: { id: string } = req.params;
-  const searchedList = lists.find((item) => (item.id = id));
+  const searchedList = lists.find((item) => item.id === id);
+  console.log(searchedList);
+  console.log(typeof searchedList);
   return res.json(searchedList);
 });
 
@@ -44,7 +46,7 @@ app.post("/lists", (req, res) => {
 //delete list
 app.delete("/lists", (req, res) => {
   const { id }: { id: string } = req.body;
-  const listIndex = lists.findIndex((i) => i.id == id);
+  const listIndex = lists.findIndex((i) => i.id === id);
   lists.splice(listIndex, 1);
   return res.send();
 });

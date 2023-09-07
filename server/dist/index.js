@@ -32,7 +32,9 @@ app.get("/lists", (req, res) => {
 // get list by id
 app.get("/lists/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    const searchedList = ShoppingList_1.shoppingLists.find((item) => (item.id = id));
+    const searchedList = ShoppingList_1.shoppingLists.find((item) => item.id === id);
+    console.log(searchedList);
+    console.log(typeof searchedList);
     return res.json(searchedList);
 }));
 //create new list
@@ -44,7 +46,7 @@ app.post("/lists", (req, res) => {
 //delete list
 app.delete("/lists", (req, res) => {
     const { id } = req.body;
-    const listIndex = ShoppingList_1.shoppingLists.findIndex((i) => i.id == id);
+    const listIndex = ShoppingList_1.shoppingLists.findIndex((i) => i.id === id);
     ShoppingList_1.shoppingLists.splice(listIndex, 1);
     return res.send();
 });

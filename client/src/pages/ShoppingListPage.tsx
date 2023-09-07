@@ -1,16 +1,37 @@
 import { Box } from "@mui/material";
 import { useParams } from "react-router-dom";
-
-type RouteParams = {
-  id: string;
-};
+import { useQuery } from "@tanstack/react-query";
+import { getShoppingListById } from "../api/service";
+import { Loader } from "../components/Loader";
+import { Error } from "../components/Error";
 
 export const ShoppingList = () => {
-  const { id } = useParams<RouteParams>();
+  type ListParams = {
+    id: string;
+  };
+
+  const { id } = useParams<keyof ListParams>() as ListParams;
+  console.log(id);
+  const { data, isLoading, isError, isSuccess } = useQuery({
+    queryKey: ["shoppingListData", id],
+    queryFn: () => getShoppingListById(id),
+  });
+
   return (
     <Box>
       <h1>ShoppingList Page</h1>
-      <p>ID: {id}</p>
+      {isLoading && <Loader />}
+      {isError && <Error />}
+      {isSuccess && !data ? (
+        <div>No data </div>
+      ) : (
+        <Box>
+          <p>ID: {id}</p>
+          <p>{data?.id}</p>
+          <p>{data?.title}</p>
+          <p>{data?.shop}</p>
+        </Box>
+      )}
     </Box>
   );
 };

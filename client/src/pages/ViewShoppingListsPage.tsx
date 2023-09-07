@@ -15,7 +15,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   getAllShoppingLists,
-  GetShoppingListsProps,
   deleteShoppingList,
 } from "../api/service";
 import { Loader } from "../components/Loader";
@@ -51,7 +50,7 @@ export const ShoppingListsView = () => {
 
   const listMenu: JSX.Element[] =
     isSuccess && data.length > 0
-      ? data.map((item: GetShoppingListsProps) => (
+      ? data.map((item) => (
           <ListItem
             key={item.id}
             disablePadding

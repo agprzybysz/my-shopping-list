@@ -23,10 +23,11 @@ export const getAllShoppingLists = async () => {
 
 export const getShoppingListById = async (listId: string) => {
   console.log("GET by id");
-  const response: AxiosResponse<GetShoppingListsProps> = await axios({
-    method: "get",
-    url: `${BASE_URL}/lists/${listId}`,
-  });
+  const response: AxiosResponse<GetShoppingListsProps | undefined> =
+    await axios({
+      method: "get",
+      url: `${BASE_URL}/lists/${listId}`,
+    });
   return response.data;
 };
 
