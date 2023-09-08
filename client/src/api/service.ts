@@ -22,7 +22,6 @@ export const getAllShoppingLists = async () => {
 };
 
 export const getShoppingListById = async (listId: string) => {
-  console.log("GET by id");
   const response: AxiosResponse<GetShoppingListsProps | undefined> =
     await axios({
       method: "get",

@@ -47,7 +47,6 @@ export const CreateNewShoppingList = () => {
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["shoppingListsData"] });
       handleShowSnackbar(NOTIFICATION_MESSAGES.SUCCESS.LIST_CREATED, "success");
-      console.log(data.id);
       navigate(`/lists/${data.id}`);
     },
   });

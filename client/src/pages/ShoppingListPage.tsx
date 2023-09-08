@@ -5,6 +5,7 @@ import { getShoppingListById } from "../api/service";
 import { Loader } from "../components/Loader";
 import { Error } from "../components/Error";
 import { NoResult } from "../components/NoResult";
+import { DataGridTable } from "../components/DataGrid";
 
 export const ShoppingList = () => {
   type ListParams = {
@@ -12,7 +13,6 @@ export const ShoppingList = () => {
   };
 
   const { id } = useParams<keyof ListParams>() as ListParams;
-  console.log(id);
   const { data, isLoading, isError, isSuccess } = useQuery({
     queryKey: ["shoppingListData", id],
     queryFn: () => getShoppingListById(id),
@@ -25,10 +25,10 @@ export const ShoppingList = () => {
       {isSuccess && !data && <NoResult children="Shopping List not found" />}
       {isSuccess && !!data && (
         <Box>
-          <p>ID: {id}</p>
-          <p>{data?.id}</p>
-          <p>{data?.title}</p>
-          <p>{data?.shop}</p>
+          <p>
+            {data?.id} {data.shop}
+          </p>
+          <DataGridTable />
         </Box>
       )}
     </Box>
