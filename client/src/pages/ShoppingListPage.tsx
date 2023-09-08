@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getShoppingListById } from "../api/service";
 import { Loader } from "../components/Loader";
 import { Error } from "../components/Error";
+import { NoResult } from "../components/NoResult";
 
 export const ShoppingList = () => {
   type ListParams = {
@@ -19,12 +20,10 @@ export const ShoppingList = () => {
 
   return (
     <Box>
-      <h1>ShoppingList Page</h1>
       {isLoading && <Loader />}
       {isError && <Error />}
-      {isSuccess && !data ? (
-        <div>No data </div>
-      ) : (
+      {isSuccess && !data && <NoResult children="Shopping List not found" />}
+      {isSuccess && !!data && (
         <Box>
           <p>ID: {id}</p>
           <p>{data?.id}</p>

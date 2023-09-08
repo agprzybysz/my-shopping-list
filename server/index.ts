@@ -26,8 +26,6 @@ app.get("/lists", (req: Request, res: Response) => {
 app.get("/lists/:id", async (req, res) => {
   const { id }: { id: string } = req.params;
   const searchedList = lists.find((item) => item.id === id);
-  console.log(searchedList);
-  console.log(typeof searchedList);
   return res.json(searchedList);
 });
 

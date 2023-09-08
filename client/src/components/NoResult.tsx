@@ -1,17 +1,21 @@
 import { Box, Typography } from "@mui/material";
 
-export const Error = () => {
+type NoResultProps = {
+  children: string;
+};
+
+export const NoResult = ({ children }: NoResultProps) => {
   return (
     <Box
       sx={{
         display: "flex",
-        justifyContent: "center",
+        justifyContent: "left",
         alignItems: "center",
-        mt: 4,
+        mt: 3,
       }}
     >
       <Typography variant="h6" sx={{ color: "#808080", fontStyle: "italic" }}>
-        An unexpected error has occurred
+        {children}
       </Typography>
     </Box>
   );

@@ -7,9 +7,10 @@ export const Loader = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        mt: 5,
       }}
     >
-      <CircularProgress />
+      <CircularProgress size={80} />
     </Box>
   );
 };

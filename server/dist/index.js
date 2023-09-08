@@ -33,8 +33,6 @@ app.get("/lists", (req, res) => {
 app.get("/lists/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const searchedList = ShoppingList_1.shoppingLists.find((item) => item.id === id);
-    console.log(searchedList);
-    console.log(typeof searchedList);
     return res.json(searchedList);
 }));
 //create new list

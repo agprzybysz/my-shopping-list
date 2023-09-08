@@ -13,12 +13,10 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  getAllShoppingLists,
-  deleteShoppingList,
-} from "../api/service";
+import { getAllShoppingLists, deleteShoppingList } from "../api/service";
 import { Loader } from "../components/Loader";
 import { Error } from "../components/Error";
+import { NoResult } from "../components/NoResult";
 import { useSnackbar, VariantType } from "notistack";
 import { NOTIFICATION_MESSAGES } from "../configs/notificationMessages";
 import { NavLink } from "react-router-dom";
@@ -114,7 +112,7 @@ export const ShoppingListsView = () => {
       <Typography variant="h6">Your shopping lists</Typography>
       {isLoading && <Loader />}
       {isError && <Error />}
-      {isSuccess && data.length === 0 && <div>No lists</div>}
+      {isSuccess && data.length === 0 && <NoResult children="No lists" />}
       {isSuccess && data.length > 0 && (
         <List sx={{ width: "100%", maxWidth: "600px" }}>{listMenu}</List>
       )}
