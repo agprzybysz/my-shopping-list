@@ -1,12 +1,20 @@
 import axios, { AxiosResponse } from "axios";
 const BASE_URL = "http://localhost:8000";
 
+type Product = {
+  id: string;
+  productName: string;
+  quantity: string;
+  notes: string;
+  done: boolean;
+};
+
 export type GetShoppingListsProps = {
   id: string;
   title: string;
   shop: string;
   createdAt: string;
-  numberOfProduts?: number;
+  products: Product[];
 };
 
 export type CreateShoppingListsProps = {

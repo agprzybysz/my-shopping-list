@@ -97,7 +97,7 @@ export const ShoppingListsView = () => {
                       }
                     </Typography>
                     <Typography variant="body2" component="p">
-                      Items: {item.numberOfProduts}
+                      Items: {item.products?.length}
                     </Typography>
                   </Box>
                 }

@@ -37,7 +37,7 @@ app.get("/lists/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* 
 }));
 //create new list
 app.post("/lists", (req, res) => {
-    const newList = Object.assign(Object.assign({}, req.body), { createdAt: new Date().getTime(), id: (0, uuid_1.v4)(), numberOfProduts: 0 });
+    const newList = Object.assign(Object.assign({}, req.body), { createdAt: new Date().getTime(), id: (0, uuid_1.v4)(), products: [] });
     ShoppingList_1.shoppingLists.push(newList);
     return res.send(newList);
 });

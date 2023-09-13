@@ -1,6 +1,27 @@
 import React from "react";
-import { DataGrid } from "@mui/x-data-grid";
+import { Box } from "@mui/material";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
-export const DataGridTable = () => {
-  return <div>data grid</div>;
+export type RowsTypes = {
+  id: string;
+  productName: string;
+  quantity: string;
+  notes: string;
+  done: boolean;
+};
+
+type DataGridProps = {
+  initialColumns: GridColDef[];
+  initialRows: RowsTypes[];
+};
+
+export const DataGridTable = ({
+  initialRows,
+  initialColumns,
+}: DataGridProps) => {
+  return (
+    <Box>
+      <DataGrid rows={initialRows} columns={initialColumns} />
+    </Box>
+  );
 };

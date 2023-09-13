@@ -35,7 +35,7 @@ app.post("/lists", (req, res) => {
     ...req.body,
     createdAt: new Date().getTime(),
     id: uuidv4(),
-    numberOfProduts: 0,
+    products: [],
   };
   lists.push(newList);
   return res.send(newList);
