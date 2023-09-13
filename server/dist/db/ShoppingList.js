@@ -16,7 +16,7 @@ exports.shoppingLists = [
                 notes: "high priority",
                 done: false,
             },
-            { id: "2", productName: "milk", quantity: "2l", notes: "", done: false },
+            { id: "2", productName: "milk", quantity: "2l", notes: "", done: true },
             { id: "3", productName: "butter", quantity: "1", notes: "", done: false },
         ],
     },

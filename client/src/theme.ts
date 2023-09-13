@@ -16,6 +16,16 @@ theme = createTheme(theme, {
         },
       },
     },
+    MuiDataGrid: {
+      styleOverrides: {
+        root: {
+          "& .MuiDataGrid-columnHeaderTitle": {
+            color: "#0d4072",
+            fontWeight: "bold",
+          },
+        },
+      },
+    },
   },
 });
 

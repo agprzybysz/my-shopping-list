@@ -21,7 +21,12 @@ export const DataGridTable = ({
 }: DataGridProps) => {
   return (
     <Box>
-      <DataGrid rows={initialRows} columns={initialColumns} />
+      <DataGrid
+        rows={initialRows}
+        columns={initialColumns}
+        rowHeight={35}
+        columnHeaderHeight={45}
+      />
     </Box>
   );
 };
