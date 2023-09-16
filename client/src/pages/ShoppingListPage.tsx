@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Button, Checkbox } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getShoppingListById } from "../api/service";
@@ -6,8 +6,9 @@ import { Loader } from "../components/Loader";
 import { Error } from "../components/Error";
 import { NoResult } from "../components/NoResult";
 import { DataGridTable } from "../components/DataGrid";
+import { AddNewRecord } from "../components/AddNewRecord";
 import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
-import { Checkbox } from "@mui/material";
+import React from "react";
 
 const columns: GridColDef[] = [
   {
@@ -41,6 +42,9 @@ export const ShoppingList = () => {
     queryFn: () => getShoppingListById(id),
   });
 
+  const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
+  const handleCloseModal = () => setIsModalOpen(false);
+
   return (
     <Box>
       {isLoading && <Loader />}
@@ -67,6 +71,19 @@ export const ShoppingList = () => {
               </span>
             </Typography>
           </Box>
+          <Button
+            variant="outlined"
+            onClick={() => {
+              setIsModalOpen(true);
+            }}
+          >
+            Add Product
+          </Button>
+          <AddNewRecord
+            isOpen={isModalOpen}
+            handleClose={handleCloseModal}
+            listId={id}
+          />
           <DataGridTable initialRows={data.products} initialColumns={columns} />
         </Box>
       )}

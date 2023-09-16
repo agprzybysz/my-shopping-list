@@ -22,6 +22,12 @@ export type CreateShoppingListsProps = {
   shop: string;
 };
 
+export type AddNewProductProps = {
+  productName: string;
+  quantity: string;
+  notes: string;
+};
+
 export const getAllShoppingLists = async () => {
   const response: AxiosResponse<GetShoppingListsProps[]> = await axios.get(
     `${BASE_URL}/lists`
@@ -52,6 +58,17 @@ export const deleteShoppingList = async (listId: string) => {
     {
       data: { id: listId },
     }
+  );
+  return response.data;
+};
+//listId: string, newProduct: AddNewProductProps
+export const addProductToShoppingList = async (
+  dataSubmitted: AddNewProductProps,
+  id: string
+) => {
+  const response: AxiosResponse<GetShoppingListsProps> = await axios.post(
+    `${BASE_URL}/lists/${id}`,
+    dataSubmitted
   );
   return response.data;
 };

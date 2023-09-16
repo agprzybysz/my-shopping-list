@@ -7,7 +7,6 @@ import {
   CardHeader,
   Button,
 } from "@mui/material";
-import { AddProductFormProps } from "./AddNewRecord";
 
 const styleModal = {
   position: "absolute",

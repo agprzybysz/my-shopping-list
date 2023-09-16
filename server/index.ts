@@ -2,7 +2,11 @@ import dotenv from "dotenv";
 import express, { Express, Request, Response } from "express";
 import cors from "cors";
 import { v4 as uuidv4 } from "uuid";
-import { shoppingLists as lists, ShoppingListProp } from "./db/ShoppingList";
+import {
+  shoppingLists as lists,
+  ShoppingListProp,
+  Product,
+} from "./db/ShoppingList";
 
 dotenv.config();
 
@@ -41,9 +45,28 @@ app.post("/lists", (req, res) => {
   return res.send(newList);
 });
 
+//add new product to list
+app.post("/lists/:id", (req, res) => {
+  const { id }: { id: string } = req.params;
+  const newProduct: Product = {
+    ...req.body,
+    id: uuidv4(),
+    done: false,
+  };
+  const listIndex = lists.findIndex((i) => i.id === id);
+  lists[listIndex].products.push(newProduct);
+  return res.send(lists[listIndex]);
+});
+
 //delete list
 app.delete("/lists", (req, res) => {
   const { id }: { id: string } = req.body;
+  const newProduct: ShoppingListProp = {
+    ...req.body,
+    createdAt: new Date().getTime(),
+    id: uuidv4(),
+    products: [],
+  };
   const listIndex = lists.findIndex((i) => i.id === id);
   lists.splice(listIndex, 1);
   return res.send();

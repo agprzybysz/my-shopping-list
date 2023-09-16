@@ -41,9 +41,18 @@ app.post("/lists", (req, res) => {
     ShoppingList_1.shoppingLists.push(newList);
     return res.send(newList);
 });
+//add new product to list
+app.post("/lists/:id", (req, res) => {
+    const { id } = req.params;
+    const newProduct = Object.assign(Object.assign({}, req.body), { id: (0, uuid_1.v4)(), done: false });
+    const listIndex = ShoppingList_1.shoppingLists.findIndex((i) => i.id === id);
+    ShoppingList_1.shoppingLists[listIndex].products.push(newProduct);
+    return res.send(ShoppingList_1.shoppingLists[listIndex]);
+});
 //delete list
 app.delete("/lists", (req, res) => {
     const { id } = req.body;
+    const newProduct = Object.assign(Object.assign({}, req.body), { createdAt: new Date().getTime(), id: (0, uuid_1.v4)(), products: [] });
     const listIndex = ShoppingList_1.shoppingLists.findIndex((i) => i.id === id);
     ShoppingList_1.shoppingLists.splice(listIndex, 1);
     return res.send();

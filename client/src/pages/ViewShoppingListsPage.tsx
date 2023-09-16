@@ -55,9 +55,6 @@ export const ShoppingListsView = () => {
             sx={{ borderBottom: "1px solid rgba(0, 0, 0, 0.12)" }}
             secondaryAction={
               <Box>
-                <IconButton aria-label="edit" size="large">
-                  <EditIcon />
-                </IconButton>
                 <IconButton
                   edge="end"
                   aria-label="delete"
