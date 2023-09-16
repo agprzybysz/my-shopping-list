@@ -28,7 +28,7 @@ export const AddNewRecord = ({
   const validationSchema = yup.object().shape({
     productName: yup.string().trim().required("Product Name is required"),
     quantity: yup.string().trim().required("Quantity is required"),
-    notes: yup.string().required("notes is required"),
+    notes: yup.string().notRequired(),
   });
   const {
     handleSubmit,
@@ -53,10 +53,11 @@ export const AddNewRecord = ({
   });
 
   const addData = (dataSubmitted: AddNewProductProps) => {
+    console.log({ id: listId, products: dataSubmitted });
     addProductMutation.mutate({
       productName: dataSubmitted.productName,
       quantity: dataSubmitted.quantity,
-      notes: dataSubmitted.notes,
+      notes: dataSubmitted.notes || "",
     });
     reset();
     handleClose();

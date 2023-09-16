@@ -25,7 +25,7 @@ export type CreateShoppingListsProps = {
 export type AddNewProductProps = {
   productName: string;
   quantity: string;
-  notes: string;
+  notes: string | undefined | null;
 };
 
 export const getAllShoppingLists = async () => {
