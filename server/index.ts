@@ -53,7 +53,7 @@ app.post("/lists/:id", (req, res) => {
     id: uuidv4(),
     done: false,
   };
-  const listIndex = lists.findIndex((i) => i.id === id);
+  const listIndex: number = lists.findIndex((i) => i.id === id);
   lists[listIndex].products.push(newProduct);
   return res.send(lists[listIndex]);
 });
@@ -69,5 +69,19 @@ app.delete("/lists", (req, res) => {
   };
   const listIndex = lists.findIndex((i) => i.id === id);
   lists.splice(listIndex, 1);
+  return res.send();
+});
+
+//delete product from list
+app.delete("/lists/:id", (req, res) => {
+  console.log("delete product");
+  const { id }: { id: string } = req.params;
+  const { productId }: { productId: string } = req.body;
+  const listIndex: number = lists.findIndex((i) => i.id === id);
+  const productIndex: number = lists[listIndex].products.findIndex(
+    (i) => i.id === productId
+  );
+  lists[listIndex].products.splice(productIndex, 1);
+  console.log(lists[listIndex]);
   return res.send();
 });

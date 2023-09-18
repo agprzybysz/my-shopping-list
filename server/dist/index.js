@@ -57,3 +57,14 @@ app.delete("/lists", (req, res) => {
     ShoppingList_1.shoppingLists.splice(listIndex, 1);
     return res.send();
 });
+//delete product from list
+app.delete("/lists/:id", (req, res) => {
+    console.log("delete product");
+    const { id } = req.params;
+    const { productId } = req.body;
+    const listIndex = ShoppingList_1.shoppingLists.findIndex((i) => i.id === id);
+    const productIndex = ShoppingList_1.shoppingLists[listIndex].products.findIndex((i) => i.id === productId);
+    ShoppingList_1.shoppingLists[listIndex].products.splice(productIndex, 1);
+    console.log(ShoppingList_1.shoppingLists[listIndex]);
+    return res.send();
+});

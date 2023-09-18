@@ -11,7 +11,6 @@ import {
   IconButton,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getAllShoppingLists, deleteShoppingList } from "../api/service";
 import { Loader } from "../components/Loader";

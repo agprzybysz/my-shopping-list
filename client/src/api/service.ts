@@ -61,7 +61,7 @@ export const deleteShoppingList = async (listId: string) => {
   );
   return response.data;
 };
-//listId: string, newProduct: AddNewProductProps
+
 export const addProductToShoppingList = async (
   dataSubmitted: AddNewProductProps,
   id: string
@@ -72,3 +72,15 @@ export const addProductToShoppingList = async (
   );
   return response.data;
 };
+export const deleteProductFromShoppingList = async (
+  productId: string,
+  id: string
+) => {
+  const response: AxiosResponse<void> = await axios.delete(
+    `${BASE_URL}/lists/${id}`,
+    {
+      data: { productId },
+    } 
+  );
+  return response.data
+}

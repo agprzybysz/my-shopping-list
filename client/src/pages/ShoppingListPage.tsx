@@ -1,7 +1,10 @@
 import { Box, Typography, Button, Checkbox } from "@mui/material";
 import { useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { getShoppingListById } from "../api/service";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  getShoppingListById,
+  deleteProductFromShoppingList,
+} from "../api/service";
 import { Loader } from "../components/Loader";
 import { Error } from "../components/Error";
 import { NoResult } from "../components/NoResult";
@@ -44,6 +47,22 @@ export const ShoppingList = () => {
 
   const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
   const handleCloseModal = () => setIsModalOpen(false);
+  
+  const queryClient = useQueryClient();
+  const deleteProductMutation = useMutation({
+    mutationFn: (productId: string) =>
+      deleteProductFromShoppingList(productId, id),
+    onError: (error) => {
+      console.log(error);
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["shoppingListData"] });
+    },
+  });
+
+  const handleDeleteProduct = (productId: string) => {
+    deleteProductMutation.mutate(productId);
+  };
 
   return (
     <Box>
@@ -84,7 +103,11 @@ export const ShoppingList = () => {
             handleClose={handleCloseModal}
             listId={id}
           />
-          <DataGridTable initialRows={data.products} initialColumns={columns} />
+          <DataGridTable
+            initialRows={data.products}
+            initialColumns={columns}
+            onDeleteProduct={handleDeleteProduct}
+          />
         </Box>
       )}
     </Box>
