@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from "axios";
+import { RowsTypes } from "../pages/ShoppingListPage";
 const BASE_URL = "http://localhost:8000";
 
 type Product = {
@@ -72,6 +73,7 @@ export const addProductToShoppingList = async (
   );
   return response.data;
 };
+
 export const deleteProductFromShoppingList = async (
   productId: string,
   id: string
@@ -80,7 +82,18 @@ export const deleteProductFromShoppingList = async (
     `${BASE_URL}/lists/${id}`,
     {
       data: { productId },
-    } 
+    }
   );
-  return response.data
-}
+  return response.data;
+};
+
+export const updateProductInShoppingList = async (
+  updatedProduct: RowsTypes,
+  id: string
+) => {
+  const response: AxiosResponse<void> = await axios.patch(
+    `${BASE_URL}/lists/${id}`,
+    updatedProduct
+  );
+  return response.data;
+};

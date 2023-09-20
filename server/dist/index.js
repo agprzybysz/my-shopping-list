@@ -59,12 +59,19 @@ app.delete("/lists", (req, res) => {
 });
 //delete product from list
 app.delete("/lists/:id", (req, res) => {
-    console.log("delete product");
     const { id } = req.params;
     const { productId } = req.body;
     const listIndex = ShoppingList_1.shoppingLists.findIndex((i) => i.id === id);
     const productIndex = ShoppingList_1.shoppingLists[listIndex].products.findIndex((i) => i.id === productId);
     ShoppingList_1.shoppingLists[listIndex].products.splice(productIndex, 1);
-    console.log(ShoppingList_1.shoppingLists[listIndex]);
+    return res.send();
+});
+//update product data in list
+app.patch("/lists/:id", (req, res) => {
+    const { id } = req.params;
+    const updatedProduct = Object.assign({}, req.body);
+    const listIndex = ShoppingList_1.shoppingLists.findIndex((i) => i.id === id);
+    const productIndex = ShoppingList_1.shoppingLists[listIndex].products.findIndex((i) => i.id === updatedProduct.id);
+    ShoppingList_1.shoppingLists[listIndex].products[productIndex] = updatedProduct;
     return res.send();
 });

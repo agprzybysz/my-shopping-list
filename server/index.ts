@@ -74,7 +74,6 @@ app.delete("/lists", (req, res) => {
 
 //delete product from list
 app.delete("/lists/:id", (req, res) => {
-  console.log("delete product");
   const { id }: { id: string } = req.params;
   const { productId }: { productId: string } = req.body;
   const listIndex: number = lists.findIndex((i) => i.id === id);
@@ -82,6 +81,17 @@ app.delete("/lists/:id", (req, res) => {
     (i) => i.id === productId
   );
   lists[listIndex].products.splice(productIndex, 1);
-  console.log(lists[listIndex]);
+  return res.send();
+});
+
+//update product data in list
+app.patch("/lists/:id", (req, res) => {
+  const { id }: { id: string } = req.params;
+  const updatedProduct = { ...req.body };
+  const listIndex: number = lists.findIndex((i) => i.id === id);
+  const productIndex: number = lists[listIndex].products.findIndex(
+    (i) => i.id === updatedProduct.id
+  );
+  lists[listIndex].products[productIndex] = updatedProduct;
   return res.send();
 });

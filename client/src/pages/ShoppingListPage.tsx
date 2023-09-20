@@ -4,6 +4,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   getShoppingListById,
   deleteProductFromShoppingList,
+  updateProductInShoppingList,
 } from "../api/service";
 import { Loader } from "../components/Loader";
 import { Error } from "../components/Error";
@@ -12,6 +13,14 @@ import { DataGridTable } from "../components/DataGrid";
 import { AddNewRecord } from "../components/AddNewRecord";
 import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import React from "react";
+
+export type RowsTypes = {
+  id: string;
+  productName: string;
+  quantity: string;
+  notes: string;
+  done: boolean;
+};
 
 const columns: GridColDef[] = [
   {
@@ -60,12 +69,23 @@ export const ShoppingList = () => {
     },
   });
 
+  const updateProductMutation = useMutation({
+    mutationFn: (updatedProduct: RowsTypes) =>
+      updateProductInShoppingList(updatedProduct, id),
+    onError: (error) => {
+      console.log(error);
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["shoppingListData"] });
+    },
+  });
+
   const handleDeleteProduct = (productId: string) => {
     deleteProductMutation.mutate(productId);
   };
 
-  const handleProcessRowUpdate = (updatedProduct: any) => {
-    console.log(updatedProduct);
+  const handleProcessRowUpdate = (updatedProduct: RowsTypes) => {
+    updateProductMutation.mutate(updatedProduct);
     return updatedProduct;
   };
 

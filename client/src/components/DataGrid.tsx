@@ -14,19 +14,12 @@ import {
   GridRowId,
   GridRowModel,
   GridRowEditStopReasons,
+  GridRowsProp,
 } from "@mui/x-data-grid";
-
-export type RowsTypes = {
-  id: string;
-  productName: string;
-  quantity: string;
-  notes: string;
-  done: boolean;
-};
 
 type DataGridProps = {
   initialColumns: GridColDef[];
-  initialRows: RowsTypes[];
+  initialRows: GridRowsProp;
   handleDelete: (productId: string) => void;
   processRowUpdate: (newRow: any) => any;
 };
