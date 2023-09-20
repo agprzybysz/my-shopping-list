@@ -47,7 +47,7 @@ export const ShoppingList = () => {
 
   const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
   const handleCloseModal = () => setIsModalOpen(false);
-  
+
   const queryClient = useQueryClient();
   const deleteProductMutation = useMutation({
     mutationFn: (productId: string) =>
@@ -62,6 +62,11 @@ export const ShoppingList = () => {
 
   const handleDeleteProduct = (productId: string) => {
     deleteProductMutation.mutate(productId);
+  };
+
+  const handleProcessRowUpdate = (updatedProduct: any) => {
+    console.log(updatedProduct);
+    return updatedProduct;
   };
 
   return (
@@ -106,7 +111,8 @@ export const ShoppingList = () => {
           <DataGridTable
             initialRows={data.products}
             initialColumns={columns}
-            onDeleteProduct={handleDeleteProduct}
+            handleDelete={handleDeleteProduct}
+            processRowUpdate={handleProcessRowUpdate}
           />
         </Box>
       )}
