@@ -6,6 +6,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FormInput } from "./FormInput";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useSnackbarHook } from "../hooks/useSnackbarHook";
+import { NOTIFICATION_MESSAGES } from "../configs/notificationMessages";
 import * as yup from "yup";
 
 type AddNewRecordComponentProps = {
@@ -25,6 +27,8 @@ export const AddNewRecord = ({
   handleClose,
   listId,
 }: AddNewRecordComponentProps) => {
+  const { handleShowSnackbar } = useSnackbarHook();
+
   const validationSchema = yup.object().shape({
     productName: yup.string().trim().required("Product Name is required"),
     quantity: yup.string().trim().required("Quantity is required"),
@@ -46,9 +50,14 @@ export const AddNewRecord = ({
       addProductToShoppingList(dataSubmitted, listId),
     onError: (error) => {
       console.log(error);
+      handleShowSnackbar(NOTIFICATION_MESSAGES.ERROR, "error");
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["shoppingListData"] });
+      handleShowSnackbar(
+        NOTIFICATION_MESSAGES.SUCCESS.PRODUCT_ADDED,
+        "success"
+      );
     },
   });
 

@@ -13,6 +13,8 @@ import { DataGridTable } from "../components/DataGrid";
 import { AddNewRecord } from "../components/AddNewRecord";
 import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import React from "react";
+import { useSnackbarHook } from "../hooks/useSnackbarHook";
+import { NOTIFICATION_MESSAGES } from "../configs/notificationMessages";
 
 export type RowsTypes = {
   id: string;
@@ -26,6 +28,9 @@ export const ShoppingList = () => {
   type ListParams = {
     id: string;
   };
+
+  const { handleShowSnackbar } = useSnackbarHook();
+
   const columns: GridColDef[] = [
     {
       field: "done",
@@ -68,9 +73,14 @@ export const ShoppingList = () => {
       deleteProductFromShoppingList(productId, id),
     onError: (error) => {
       console.log(error);
+      handleShowSnackbar(NOTIFICATION_MESSAGES.ERROR, "error");
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["shoppingListData"] });
+      handleShowSnackbar(
+        NOTIFICATION_MESSAGES.SUCCESS.PRODUCT_DELETED,
+        "success"
+      );
     },
   });
 
@@ -79,9 +89,14 @@ export const ShoppingList = () => {
       updateProductInShoppingList(updatedProduct, id),
     onError: (error) => {
       console.log(error);
+      handleShowSnackbar(NOTIFICATION_MESSAGES.ERROR, "error");
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["shoppingListData"] });
+      handleShowSnackbar(
+        NOTIFICATION_MESSAGES.SUCCESS.PRODUCT_EDITTED,
+        "success"
+      );
     },
   });
 

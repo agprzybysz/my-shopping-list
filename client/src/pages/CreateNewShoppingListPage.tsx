@@ -8,7 +8,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createShoppingList, CreateShoppingListsProps } from "../api/service";
-import { useSnackbar, VariantType } from "notistack";
+import { useSnackbarHook } from "../hooks/useSnackbarHook";
 import { NOTIFICATION_MESSAGES } from "../configs/notificationMessages";
 import { useNavigate } from "react-router-dom";
 
@@ -30,12 +30,8 @@ const validationSchema = yup
 
 export const CreateNewShoppingList = () => {
   const queryClient = useQueryClient();
-  const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
-
-  const handleShowSnackbar = (message: string, variant: VariantType) => {
-    enqueueSnackbar(message, { variant });
-  };
+  const { handleShowSnackbar } = useSnackbarHook();
 
   const addListMutation = useMutation({
     mutationFn: (newList: CreateShoppingListsProps) =>

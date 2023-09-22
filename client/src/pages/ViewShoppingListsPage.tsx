@@ -16,7 +16,7 @@ import { getAllShoppingLists, deleteShoppingList } from "../api/service";
 import { Loader } from "../components/Loader";
 import { Error } from "../components/Error";
 import { NoResult } from "../components/NoResult";
-import { useSnackbar, VariantType } from "notistack";
+import { useSnackbarHook } from '../hooks/useSnackbarHook';
 import { NOTIFICATION_MESSAGES } from "../configs/notificationMessages";
 import { NavLink } from "react-router-dom";
 
@@ -27,11 +27,8 @@ export const ShoppingListsView = () => {
   });
 
   const queryClient = useQueryClient();
-  const { enqueueSnackbar } = useSnackbar();
+  const { handleShowSnackbar } = useSnackbarHook();
 
-  const handleShowSnackbar = (message: string, variant: VariantType) => {
-    enqueueSnackbar(message, { variant });
-  };
 
   const deleteListMutation = useMutation({
     mutationFn: (id: string) => deleteShoppingList(id),
