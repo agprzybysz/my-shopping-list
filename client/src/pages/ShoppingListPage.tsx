@@ -22,31 +22,36 @@ export type RowsTypes = {
   done: boolean;
 };
 
-const columns: GridColDef[] = [
-  {
-    field: "done",
-    headerName: "Done",
-    width: 100,
-    description: "Mark as checked product which you bought",
-    editable: true,
-    renderCell: (params: GridRenderCellParams) => (
-      <Checkbox checked={params.value} size="small" />
-    ),
-  },
-  {
-    field: "productName",
-    headerName: "Product Name",
-    width: 150,
-    editable: true,
-  },
-  { field: "quantity", headerName: "Quantity", width: 100, editable: true },
-  { field: "notes", headerName: "Notes", width: 200, editable: true },
-];
-
 export const ShoppingList = () => {
   type ListParams = {
     id: string;
   };
+  const columns: GridColDef[] = [
+    {
+      field: "done",
+      headerName: "Done",
+      width: 100,
+      description: "Mark as checked product which you bought",
+      editable: true,
+      renderCell: (params: GridRenderCellParams) => (
+        <Checkbox
+          onChange={() => {
+            params.api.selectRow(params.id, !params.row.value);
+          }}
+          checked={params.value}
+          size="small"
+        />
+      ),
+    },
+    {
+      field: "productName",
+      headerName: "Product Name",
+      width: 150,
+      editable: true,
+    },
+    { field: "quantity", headerName: "Quantity", width: 100, editable: true },
+    { field: "notes", headerName: "Notes", width: 200, editable: true },
+  ];
 
   const { id } = useParams<keyof ListParams>() as ListParams;
   const { data, isLoading, isError, isSuccess } = useQuery({

@@ -53,7 +53,6 @@ export const AddNewRecord = ({
   });
 
   const addData = (dataSubmitted: AddNewProductProps) => {
-    console.log({ id: listId, products: dataSubmitted });
     addProductMutation.mutate({
       productName: dataSubmitted.productName,
       quantity: dataSubmitted.quantity,

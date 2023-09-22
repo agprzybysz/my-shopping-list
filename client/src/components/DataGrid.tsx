@@ -1,5 +1,5 @@
 import React from "react";
-import { Box } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import SaveIcon from "@mui/icons-material/Save";
@@ -112,12 +112,15 @@ export const DataGridTable = ({
       },
     },
   ];
-
   return (
     <Box>
       <DataGrid
         rows={initialRows}
         columns={columns}
+        initialState={{
+          pagination: { paginationModel: { pageSize: 10 } },
+        }}
+        pageSizeOptions={[5, 10, 25]}
         rowHeight={35}
         columnHeaderHeight={45}
         editMode="row"
@@ -125,6 +128,18 @@ export const DataGridTable = ({
         onRowModesModelChange={handleRowModesModelChange}
         onRowEditStop={handleRowEditStop}
         processRowUpdate={processRowUpdate}
+        slots={{
+          noRowsOverlay: () => (
+            <Stack height="100px" alignItems="center" justifyContent="center">
+              No rows
+            </Stack>
+          ),
+          noResultsOverlay: () => (
+            <Stack height="100%" alignItems="center" justifyContent="center">
+              Filter returns no result
+            </Stack>
+          ),
+        }}
       />
     </Box>
   );
