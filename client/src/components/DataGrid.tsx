@@ -15,13 +15,13 @@ import {
   GridRowModel,
   GridRowEditStopReasons,
 } from "@mui/x-data-grid";
-import { RowsTypes } from "../pages/ShoppingListPage";
+import { ProductProps } from "../types/types";
 
 type DataGridProps = {
   initialColumns: GridColDef[];
-  initialRows: RowsTypes[];
+  initialRows: ProductProps[];
   handleDelete: (productId: string) => void;
-  processRowUpdate: (newRow: RowsTypes) => RowsTypes;
+  processRowUpdate: (newRow: ProductProps) => ProductProps;
 };
 
 export const DataGridTable = ({

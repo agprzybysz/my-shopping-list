@@ -6,6 +6,7 @@ import {
   deleteProductFromShoppingList,
   updateProductInShoppingList,
 } from "../api/service";
+import { ProductProps } from "../types/types";
 import { Loader } from "../components/Loader";
 import { Error } from "../components/Error";
 import { NoResult } from "../components/NoResult";
@@ -16,13 +17,6 @@ import React from "react";
 import { useSnackbarHook } from "../hooks/useSnackbarHook";
 import { NOTIFICATION_MESSAGES } from "../configs/notificationMessages";
 
-export type RowsTypes = {
-  id: string;
-  productName: string;
-  quantity: string;
-  notes: string;
-  isPurchased: boolean;
-};
 
 export const ShoppingList = () => {
   type ListParams = {
@@ -86,7 +80,7 @@ export const ShoppingList = () => {
   });
 
   const updateProductMutation = useMutation({
-    mutationFn: (updatedProduct: RowsTypes) =>
+    mutationFn: (updatedProduct: ProductProps) =>
       updateProductInShoppingList(updatedProduct, id),
     onError: (error) => {
       console.log(error);
@@ -105,7 +99,7 @@ export const ShoppingList = () => {
     deleteProductMutation.mutate(productId);
   };
 
-  const handleProcessRowUpdate = (updatedProduct: RowsTypes) => {
+  const handleProcessRowUpdate = (updatedProduct: ProductProps) => {
     updateProductMutation.mutate(updatedProduct);
     return updatedProduct;
   };

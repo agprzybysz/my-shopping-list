@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { AppModal } from "./Modal";
-import { AddNewProductProps, addProductToShoppingList } from "../api/service";
+import { addProductToShoppingList } from "../api/service";
+import { AddNewProductProps } from "../types/types";
 import { Box } from "@mui/material";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FormInput } from "./FormInput";

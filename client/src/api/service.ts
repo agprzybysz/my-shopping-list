@@ -1,33 +1,7 @@
 import axios, { AxiosResponse } from "axios";
-import { RowsTypes } from "../pages/ShoppingListPage";
+import { ProductProps } from "../types/types";
+import { GetShoppingListsProps, CreateShoppingListsProps, AddNewProductProps } from "../types/types";
 const BASE_URL = "http://localhost:8000";
-
-type Product = {
-  id: string;
-  productName: string;
-  quantity: string;
-  notes: string;
-  isPurchased: boolean;
-};
-
-export type GetShoppingListsProps = {
-  id: string;
-  title: string;
-  shop: string;
-  createdAt: string;
-  products: Product[];
-};
-
-export type CreateShoppingListsProps = {
-  title: string;
-  shop: string;
-};
-
-export type AddNewProductProps = {
-  productName: string;
-  quantity: string;
-  notes: string | undefined | null;
-};
 
 export const getAllShoppingLists = async () => {
   const response: AxiosResponse<GetShoppingListsProps[]> = await axios.get(
@@ -88,7 +62,7 @@ export const deleteProductFromShoppingList = async (
 };
 
 export const updateProductInShoppingList = async (
-  updatedProduct: RowsTypes,
+  updatedProduct: ProductProps,
   id: string
 ) => {
   const response: AxiosResponse<void> = await axios.patch(
