@@ -44,7 +44,7 @@ app.post("/lists", (req, res) => {
 //add new product to list
 app.post("/lists/:id", (req, res) => {
     const { id } = req.params;
-    const newProduct = Object.assign(Object.assign({}, req.body), { id: (0, uuid_1.v4)(), done: false });
+    const newProduct = Object.assign(Object.assign({}, req.body), { id: (0, uuid_1.v4)(), isPurchased: false });
     const listIndex = ShoppingList_1.shoppingLists.findIndex((i) => i.id === id);
     ShoppingList_1.shoppingLists[listIndex].products.push(newProduct);
     return res.send(ShoppingList_1.shoppingLists[listIndex]);

@@ -51,7 +51,7 @@ app.post("/lists/:id", (req, res) => {
   const newProduct: Product = {
     ...req.body,
     id: uuidv4(),
-    done: false,
+    isPurchased: false,
   };
   const listIndex: number = lists.findIndex((i) => i.id === id);
   lists[listIndex].products.push(newProduct);

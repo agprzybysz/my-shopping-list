@@ -4,7 +4,7 @@ import { AddNewProductProps, addProductToShoppingList } from "../api/service";
 import { Box } from "@mui/material";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FormInput } from "./FormInput";
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useSnackbarHook } from "../hooks/useSnackbarHook";
 import { NOTIFICATION_MESSAGES } from "../configs/notificationMessages";
@@ -39,7 +39,7 @@ export const AddNewRecord = ({
     control,
     reset,
     formState: { errors },
-  } = useForm({
+  } = useForm<AddNewProductProps>({
     resolver: yupResolver(validationSchema),
     defaultValues: defaultValues,
     mode: "onChange",
@@ -61,7 +61,9 @@ export const AddNewRecord = ({
     },
   });
 
-  const addData = (dataSubmitted: AddNewProductProps) => {
+  const addData: SubmitHandler<AddNewProductProps> = (
+    dataSubmitted: AddNewProductProps
+  ) => {
     addProductMutation.mutate({
       productName: dataSubmitted.productName,
       quantity: dataSubmitted.quantity,

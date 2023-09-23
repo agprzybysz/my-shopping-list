@@ -1,10 +1,11 @@
 import * as React from "react";
 import { Controller } from "react-hook-form";
 import TextField from "@mui/material/TextField";
+import { Control } from "react-hook-form";
 
 type FormInputProps = {
   name: string;
-  control: any;
+  control: Control<any>;
   label: string;
   errorsObj: any;
 };

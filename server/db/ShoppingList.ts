@@ -3,7 +3,7 @@ export type Product = {
   productName: string;
   quantity: string;
   notes: string;
-  done: boolean;
+  isPurchased: boolean;
 };
 
 export type ShoppingListProp = {
@@ -27,10 +27,10 @@ export const shoppingLists: ShoppingListProp[] = [
         productName: "apple",
         quantity: "1kg",
         notes: "high priority",
-        done: false,
+        isPurchased: false,
       },
-      { id: "2", productName: "milk", quantity: "2l", notes: "", done: true },
-      { id: "3", productName: "butter", quantity: "1", notes: "", done: false },
+      { id: "2", productName: "milk", quantity: "2l", notes: "", isPurchased: true },
+      { id: "3", productName: "butter", quantity: "1", notes: "", isPurchased: false },
     ],
   },
   {
@@ -44,14 +44,14 @@ export const shoppingLists: ShoppingListProp[] = [
         productName: "Salmon filet",
         quantity: "1kg",
         notes: "",
-        done: false,
+        isPurchased: false,
       },
       {
         id: "2",
         productName: "Potato",
         quantity: "3kg",
         notes: "",
-        done: false,
+        isPurchased: false,
       },
     ],
   },
@@ -73,23 +73,23 @@ export const shoppingLists: ShoppingListProp[] = [
         productName: "Tomato",
         quantity: "2kg",
         notes: "",
-        done: false,
+        isPurchased: false,
       },
       {
         id: "2",
         productName: "Strawberry",
         quantity: "1kg",
         notes: "",
-        done: false,
+        isPurchased: false,
       },
       {
         id: "3",
         productName: " Red onion",
         quantity: "0.5kg",
         notes: "",
-        done: false,
+        isPurchased: false,
       },
-      { id: "4", productName: "Lemon", quantity: "3", notes: "", done: false },
+      { id: "4", productName: "Lemon", quantity: "3", notes: "", isPurchased: false },
     ],
   },
 ];

@@ -33,19 +33,14 @@ export const ShoppingList = () => {
 
   const columns: GridColDef[] = [
     {
-      field: "done",
-      headerName: "Done",
-      width: 100,
+      field: "isPurchased",
+      headerName: "Is Purchased?",
+      width: 130,
       description: "Mark as checked product which you bought",
+      type: "boolean",
       editable: true,
       renderCell: (params: GridRenderCellParams) => (
-        <Checkbox
-          onChange={() => {
-            params.api.selectRow(params.id, !params.row.value);
-          }}
-          checked={params.value}
-          size="small"
-        />
+        <Checkbox checked={params.value} size="small" />
       ),
     },
     {

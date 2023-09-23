@@ -7,7 +7,7 @@ type Product = {
   productName: string;
   quantity: string;
   notes: string;
-  done: boolean;
+  isPurchased: boolean;
 };
 
 export type GetShoppingListsProps = {
