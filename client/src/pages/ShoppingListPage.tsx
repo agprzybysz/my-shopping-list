@@ -21,7 +21,7 @@ export type RowsTypes = {
   productName: string;
   quantity: string;
   notes: string;
-  done: boolean;
+  isPurchased: boolean;
 };
 
 export const ShoppingList = () => {
@@ -46,11 +46,17 @@ export const ShoppingList = () => {
     {
       field: "productName",
       headerName: "Product Name",
-      width: 150,
+      width: 200,
       editable: true,
     },
     { field: "quantity", headerName: "Quantity", width: 100, editable: true },
-    { field: "notes", headerName: "Notes", width: 200, editable: true },
+    {
+      field: "notes",
+      headerName: "Notes",
+      minWidth: 200,
+      flex: 1,
+      editable: true,
+    },
   ];
 
   const { id } = useParams<keyof ListParams>() as ListParams;
@@ -125,8 +131,11 @@ export const ShoppingList = () => {
             <Typography>
               Pruducts to buy:{" "}
               <span style={{ color: "#0d4072", fontWeight: 500 }}>
-                {data.products.filter((item) => item.done === false).length}/
-                {data.products.length}
+                {
+                  data.products.filter((item) => item.isPurchased === false)
+                    .length
+                }
+                /{data.products.length}
               </span>
             </Typography>
           </Box>

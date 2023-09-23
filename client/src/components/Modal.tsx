@@ -28,7 +28,7 @@ type ModalProps = {
   children: JSX.Element;
   isOpen: boolean;
   handleClose: () => void;
-  onSubmit: (dataSubmitted: any) => any;
+  onSubmit: () => void;
 };
 
 export function AppModal({
@@ -56,17 +56,17 @@ export function AppModal({
           <CardContent id="modal-modal-description">{children}</CardContent>
           <CardActions sx={{ padding: 0, justifyContent: "flex-end" }}>
             <Button
-              variant={"outlined"}
-              color={"primary"}
-              size={"large"}
+              variant="outlined"
+              color="primary"
+              size="large"
               onClick={handleClose}
             >
               Cancel
             </Button>
             <Button
-              variant={"contained"}
-              color={"primary"}
-              size={"large"}
+              variant="contained"
+              color="primary"
+              size="large"
               onClick={onSubmit}
               sx={{ marginLeft: "12px" }}
             >

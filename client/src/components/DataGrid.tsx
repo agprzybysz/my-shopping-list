@@ -14,14 +14,14 @@ import {
   GridRowId,
   GridRowModel,
   GridRowEditStopReasons,
-  GridRowsProp,
 } from "@mui/x-data-grid";
+import { RowsTypes } from "../pages/ShoppingListPage";
 
 type DataGridProps = {
   initialColumns: GridColDef[];
-  initialRows: GridRowsProp;
+  initialRows: RowsTypes[];
   handleDelete: (productId: string) => void;
-  processRowUpdate: (newRow: any) => any;
+  processRowUpdate: (newRow: RowsTypes) => RowsTypes;
 };
 
 export const DataGridTable = ({
@@ -30,7 +30,6 @@ export const DataGridTable = ({
   handleDelete,
   processRowUpdate,
 }: DataGridProps) => {
-  /* const [rows, setRows] = React.useState(initialRows);*/
   const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
     {}
   );
@@ -69,7 +68,7 @@ export const DataGridTable = ({
       field: "actions",
       type: "actions",
       headerName: "Actions",
-      width: 100,
+      width: 150,
       cellClassName: "actions",
       getActions: ({ id }: GridRowModel) => {
         const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
