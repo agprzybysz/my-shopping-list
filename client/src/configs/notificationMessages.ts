@@ -5,6 +5,7 @@ export const NOTIFICATION_MESSAGES = {
     LIST_DELETED: "List was removed",
     PRODUCT_DELETED: "Product was removed from shopping list",
     PRODUCT_ADDED: "New product added to shopping list",
-    PRODUCT_EDITTED: "Product was editted",
+    PRODUCT_EDITTED:  (productName: string) => `Product: ${productName} was edited`,
   },
 };
+

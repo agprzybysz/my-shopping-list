@@ -10,10 +10,9 @@ import {
   DataGrid,
   GridColDef,
   GridActionsCellItem,
-  GridEventListener,
   GridRowId,
   GridRowModel,
-  GridRowEditStopReasons,
+  GridRowParams,
 } from "@mui/x-data-grid";
 import { ProductProps } from "../types/types";
 
@@ -21,7 +20,10 @@ type DataGridProps = {
   initialColumns: GridColDef[];
   initialRows: ProductProps[];
   handleDelete: (productId: string) => void;
-  processRowUpdate: (newRow: ProductProps) => ProductProps;
+  processRowUpdate: (
+    newRow: ProductProps,
+    originalRow: ProductProps
+  ) => ProductProps;
 };
 
 export const DataGridTable = ({
@@ -33,15 +35,6 @@ export const DataGridTable = ({
   const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
     {}
   );
-
-  const handleRowEditStop: GridEventListener<"rowEditStop"> = (
-    params,
-    event
-  ) => {
-    if (params.reason === GridRowEditStopReasons.rowFocusOut) {
-      event.defaultMuiPrevented = true;
-    }
-  };
 
   const handleEdit = (id: GridRowId) => {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
@@ -60,6 +53,13 @@ export const DataGridTable = ({
 
   const handleRowModesModelChange = (newRowModesModel: GridRowModesModel) => {
     setRowModesModel(newRowModesModel);
+  };
+  //update row on single click
+  const handleRowClick = (params: GridRowParams, event: React.MouseEvent) => {
+    setRowModesModel({
+      ...rowModesModel,
+      [params.id]: { mode: GridRowModes.Edit },
+    });
   };
 
   const columns: GridColDef[] = [
@@ -125,7 +125,7 @@ export const DataGridTable = ({
         editMode="row"
         rowModesModel={rowModesModel}
         onRowModesModelChange={handleRowModesModelChange}
-        onRowEditStop={handleRowEditStop}
+        onRowClick={handleRowClick}
         processRowUpdate={processRowUpdate}
         slots={{
           noRowsOverlay: () => (

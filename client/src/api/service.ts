@@ -1,6 +1,10 @@
 import axios, { AxiosResponse } from "axios";
 import { ProductProps } from "../types/types";
-import { GetShoppingListsProps, CreateShoppingListsProps, AddNewProductProps } from "../types/types";
+import {
+  GetShoppingListsProps,
+  CreateShoppingListsProps,
+  AddNewProductProps,
+} from "../types/types";
 const BASE_URL = "http://localhost:8000";
 
 export const getAllShoppingLists = async () => {
@@ -65,7 +69,7 @@ export const updateProductInShoppingList = async (
   updatedProduct: ProductProps,
   id: string
 ) => {
-  const response: AxiosResponse<void> = await axios.patch(
+  const response: AxiosResponse<ProductProps> = await axios.patch(
     `${BASE_URL}/lists/${id}`,
     updatedProduct
   );

@@ -17,7 +17,6 @@ import React from "react";
 import { useSnackbarHook } from "../hooks/useSnackbarHook";
 import { NOTIFICATION_MESSAGES } from "../configs/notificationMessages";
 
-
 export const ShoppingList = () => {
   type ListParams = {
     id: string;
@@ -89,7 +88,7 @@ export const ShoppingList = () => {
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["shoppingListData"] });
       handleShowSnackbar(
-        NOTIFICATION_MESSAGES.SUCCESS.PRODUCT_EDITTED,
+        NOTIFICATION_MESSAGES.SUCCESS.PRODUCT_EDITTED(data.productName),
         "success"
       );
     },
@@ -99,8 +98,13 @@ export const ShoppingList = () => {
     deleteProductMutation.mutate(productId);
   };
 
-  const handleProcessRowUpdate = (updatedProduct: ProductProps) => {
-    updateProductMutation.mutate(updatedProduct);
+  const handleProcessRowUpdate = (
+    updatedProduct: ProductProps,
+    originalProduct: ProductProps
+  ) => {
+    if (JSON.stringify(updatedProduct) !== JSON.stringify(originalProduct)) {
+      updateProductMutation.mutate(updatedProduct);
+    }
     return updatedProduct;
   };
 

@@ -38,7 +38,7 @@ app.get("/lists/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* 
 //create new list
 app.post("/lists", (req, res) => {
     const newList = Object.assign(Object.assign({}, req.body), { createdAt: new Date().getTime(), id: (0, uuid_1.v4)(), products: [] });
-    ShoppingList_1.shoppingLists.push(newList);
+    ShoppingList_1.shoppingLists.unshift(newList);
     return res.send(newList);
 });
 //add new product to list
@@ -73,5 +73,5 @@ app.patch("/lists/:id", (req, res) => {
     const listIndex = ShoppingList_1.shoppingLists.findIndex((i) => i.id === id);
     const productIndex = ShoppingList_1.shoppingLists[listIndex].products.findIndex((i) => i.id === updatedProduct.id);
     ShoppingList_1.shoppingLists[listIndex].products[productIndex] = updatedProduct;
-    return res.send();
+    return res.send(updatedProduct);
 });

@@ -41,7 +41,7 @@ app.post("/lists", (req, res) => {
     id: uuidv4(),
     products: [],
   };
-  lists.push(newList);
+  lists.unshift(newList);
   return res.send(newList);
 });
 
@@ -93,5 +93,5 @@ app.patch("/lists/:id", (req, res) => {
     (i) => i.id === updatedProduct.id
   );
   lists[listIndex].products[productIndex] = updatedProduct;
-  return res.send();
+  return res.send(updatedProduct);
 });
