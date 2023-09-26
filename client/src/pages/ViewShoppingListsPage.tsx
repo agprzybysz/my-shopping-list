@@ -16,7 +16,7 @@ import { getAllShoppingLists, deleteShoppingList } from "../api/service";
 import { Loader } from "../components/Loader";
 import { Error } from "../components/Error";
 import { NoResult } from "../components/NoResult";
-import { useSnackbarHook } from '../hooks/useSnackbarHook';
+import { useSnackbarHook } from "../hooks/useSnackbarHook";
 import { NOTIFICATION_MESSAGES } from "../configs/notificationMessages";
 import { NavLink } from "react-router-dom";
 
@@ -28,7 +28,6 @@ export const ShoppingListsView = () => {
 
   const queryClient = useQueryClient();
   const { handleShowSnackbar } = useSnackbarHook();
-
 
   const deleteListMutation = useMutation({
     mutationFn: (id: string) => deleteShoppingList(id),
@@ -44,60 +43,65 @@ export const ShoppingListsView = () => {
 
   const listMenu: JSX.Element[] =
     isSuccess && data.length > 0
-      ? data.map((item) => (
-          <ListItem
-            key={item.id}
-            disablePadding
-            sx={{ borderBottom: "1px solid rgba(0, 0, 0, 0.12)" }}
-            secondaryAction={
-              <Box>
-                <IconButton
-                  edge="end"
-                  aria-label="delete"
-                  size="large"
-                  onClick={() => deleteListMutation.mutate(item.id)}
-                >
-                  <DeleteIcon />
-                </IconButton>
-              </Box>
-            }
-          >
-            <ListItemButton
-              sx={{ px: 0 }}
-              component={NavLink}
-              to={`/lists/${item.id}`}
+      ? data
+          .sort((item1, item2) => new Date(item2.createdAt).getTime() - new Date(item1.createdAt).getTime())
+          .map((item) => (
+            <ListItem
+              key={item.id}
+              disablePadding
+              sx={{ borderBottom: "1px solid rgba(0, 0, 0, 0.12)" }}
+              secondaryAction={
+                <Box>
+                  <IconButton
+                    edge="end"
+                    aria-label="delete"
+                    size="large"
+                    onClick={() => deleteListMutation.mutate(item.id)}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </Box>
+              }
             >
-              <ListItemAvatar>
-                <Avatar sx={{ backgroundColor: "orange" }}>
-                  {item.title.slice(0, 1)}
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText
-                disableTypography
-                primary={
-                  <Typography variant="body1" component="div">
-                    {item.title}
-                  </Typography>
-                }
-                secondary={
-                  <Box sx={{ color: "rgba(0, 0, 0, 0.6)" }}>
-                    <Typography variant="body2" component="p" sx={{ mt: 0.5 }}>
-                      Created at:{" "}
-                      {
-                        new Date(item.createdAt)
-                          .toLocaleString("en-GB")
-                          .split(",")[0]
-                      }
+              <ListItemButton
+                sx={{ px: 0 }}
+                component={NavLink}
+                to={`/lists/${item.id}`}
+              >
+                <ListItemAvatar>
+                  <Avatar sx={{ backgroundColor: "orange" }}>
+                    {item.title.slice(0, 1)}
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText
+                  disableTypography
+                  primary={
+                    <Typography variant="body1" component="div">
+                      {item.title}
                     </Typography>
-                    <Typography variant="body2" component="p">
-                      Items: {item.products?.length}
-                    </Typography>
-                  </Box>
-                }
-              />
-            </ListItemButton>
-          </ListItem>
-        ))
+                  }
+                  secondary={
+                    <Box sx={{ color: "rgba(0, 0, 0, 0.6)" }}>
+                      <Typography variant="body2" component="p" mt={0.5}>
+                        Created at:{" "}
+                        {
+                          new Date(item.createdAt)
+                            .toLocaleString("en-GB")
+                            .split(",")[0]
+                        }
+                      </Typography>
+                      <Typography variant="body2" component="p" mb={0.5}>
+                        Shop: {item.shop}
+                      </Typography>
+                      <Typography variant="body2" component="p">
+                        Items: {item.products?.length}
+                      </Typography>
+                    </Box>
+                  }
+                />
+              </ListItemButton>
+            </ListItem>
+          ))
       : [];
 
   return (

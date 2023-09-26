@@ -39,7 +39,7 @@ export const ShoppingList = () => {
     {
       field: "productName",
       headerName: "Product Name",
-      width: 200,
+      width: 250,
       editable: true,
     },
     { field: "quantity", headerName: "Quantity", width: 100, editable: true },

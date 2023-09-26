@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import SaveIcon from "@mui/icons-material/Save";
@@ -19,7 +19,7 @@ import { ProductProps } from "../types/types";
 type DataGridProps = {
   initialColumns: GridColDef[];
   initialRows: ProductProps[];
-  handleDelete: (productId: string) => void;
+  handleDelete: (id: string) => void;
   processRowUpdate: (
     newRow: ProductProps,
     originalRow: ProductProps
@@ -68,7 +68,7 @@ export const DataGridTable = ({
       field: "actions",
       type: "actions",
       headerName: "Actions",
-      width: 150,
+      width: 200,
       cellClassName: "actions",
       getActions: ({ id }: GridRowModel) => {
         const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
@@ -112,34 +112,33 @@ export const DataGridTable = ({
     },
   ];
   return (
-    <Box>
-      <DataGrid
-        rows={initialRows}
-        columns={columns}
-        initialState={{
-          pagination: { paginationModel: { pageSize: 10 } },
-        }}
-        pageSizeOptions={[5, 10, 25]}
-        rowHeight={35}
-        columnHeaderHeight={45}
-        editMode="row"
-        rowModesModel={rowModesModel}
-        onRowModesModelChange={handleRowModesModelChange}
-        onRowClick={handleRowClick}
-        processRowUpdate={processRowUpdate}
-        slots={{
-          noRowsOverlay: () => (
-            <Stack height="100px" alignItems="center" justifyContent="center">
-              No rows
-            </Stack>
-          ),
-          noResultsOverlay: () => (
-            <Stack height="100%" alignItems="center" justifyContent="center">
-              Filter returns no result
-            </Stack>
-          ),
-        }}
-      />
-    </Box>
+    <DataGrid
+      autoHeight
+      rows={initialRows}
+      columns={columns}
+      initialState={{
+        pagination: { paginationModel: { pageSize: 10 } },
+      }}
+      pageSizeOptions={[5, 10, 25]}
+      rowHeight={35}
+      columnHeaderHeight={45}
+      editMode="row"
+      rowModesModel={rowModesModel}
+      onRowModesModelChange={handleRowModesModelChange}
+      onRowClick={handleRowClick}
+      processRowUpdate={processRowUpdate}
+      slots={{
+        noRowsOverlay: () => (
+          <Stack height="100%" alignItems="center" justifyContent="center">
+            No rows
+          </Stack>
+        ),
+        noResultsOverlay: () => (
+          <Stack height="100%" alignItems="center" justifyContent="center">
+            No results found
+          </Stack>
+        ),
+      }}
+    />
   );
 };
