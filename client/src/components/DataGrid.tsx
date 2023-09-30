@@ -1,18 +1,16 @@
 import React from "react";
 import { Stack } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
-import SaveIcon from "@mui/icons-material/Save";
-import CancelIcon from "@mui/icons-material/Close";
 import {
   GridRowModesModel,
   GridRowModes,
   DataGrid,
   GridColDef,
   GridActionsCellItem,
-  GridRowId,
   GridRowModel,
   GridRowParams,
+  GridRowSelectionModel,
+  GRID_CHECKBOX_SELECTION_COL_DEF,
 } from "@mui/x-data-grid";
 import { ProductProps } from "../types/types";
 
@@ -24,6 +22,7 @@ type DataGridProps = {
     newRow: ProductProps,
     originalRow: ProductProps
   ) => ProductProps;
+  handleSelectionChange: (ids: any[]) => void;
 };
 
 export const DataGridTable = ({
@@ -31,25 +30,17 @@ export const DataGridTable = ({
   initialColumns,
   handleDelete,
   processRowUpdate,
+  handleSelectionChange,
 }: DataGridProps) => {
   const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
     {}
   );
 
-  const handleEdit = (id: GridRowId) => {
-    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
-  };
-
-  const handleSave = (id: GridRowId) => {
-    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
-  };
-
-  const handleCancel = (id: GridRowId) => {
-    setRowModesModel({
-      ...rowModesModel,
-      [id]: { mode: GridRowModes.View, ignoreModifications: true },
-    });
-  };
+  const initialSelection = initialRows
+    .filter((row) => row.isPurchased === true)
+    .map((row) => row.id);
+  const [rowSelectionModel, setRowSelectionModel] =
+    React.useState<GridRowSelectionModel>(initialSelection);
 
   const handleRowModesModelChange = (newRowModesModel: GridRowModesModel) => {
     setRowModesModel(newRowModesModel);
@@ -63,6 +54,10 @@ export const DataGridTable = ({
   };
 
   const columns: GridColDef[] = [
+    {
+      ...GRID_CHECKBOX_SELECTION_COL_DEF,
+      width: 150,
+    },
     ...initialColumns,
     {
       field: "actions",
@@ -71,36 +66,7 @@ export const DataGridTable = ({
       width: 200,
       cellClassName: "actions",
       getActions: ({ id }: GridRowModel) => {
-        const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
-
-        if (isInEditMode) {
-          return [
-            <GridActionsCellItem
-              icon={<SaveIcon />}
-              label="Save"
-              sx={{
-                color: "primary.main",
-              }}
-              onClick={() => handleSave(id)}
-            />,
-            <GridActionsCellItem
-              icon={<CancelIcon />}
-              label="Cancel"
-              className="textPrimary"
-              onClick={() => handleCancel(id)}
-              color="inherit"
-            />,
-          ];
-        }
-
         return [
-          <GridActionsCellItem
-            icon={<EditIcon />}
-            label="Edit"
-            className="textPrimary"
-            onClick={() => handleEdit(id)}
-            color="inherit"
-          />,
           <GridActionsCellItem
             icon={<DeleteIcon />}
             label="Delete"
@@ -114,7 +80,17 @@ export const DataGridTable = ({
   return (
     <DataGrid
       autoHeight
+      checkboxSelection
       rows={initialRows}
+      onRowSelectionModelChange={(
+        newRowSelectionModel: GridRowSelectionModel
+      ) => {
+        setRowSelectionModel(newRowSelectionModel);
+        handleSelectionChange(newRowSelectionModel);
+      }}
+      rowSelectionModel={rowSelectionModel}
+      disableRowSelectionOnClick
+      keepNonExistentRowsSelected
       columns={columns}
       initialState={{
         pagination: { paginationModel: { pageSize: 10 } },
@@ -127,6 +103,13 @@ export const DataGridTable = ({
       onRowModesModelChange={handleRowModesModelChange}
       onRowClick={handleRowClick}
       processRowUpdate={processRowUpdate}
+      localeText={{
+        footerRowSelected: (count) =>
+          count !== 1
+            ? `${count.toLocaleString()} products purchased`
+            : `${count.toLocaleString()} product purchased`,
+        checkboxSelectionHeaderName: "Is Purchased?",
+      }}
       slots={{
         noRowsOverlay: () => (
           <Stack height="100%" alignItems="center" justifyContent="center">

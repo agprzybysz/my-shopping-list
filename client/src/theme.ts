@@ -23,6 +23,16 @@ theme = createTheme(theme, {
             color: "#0d4072",
             fontWeight: "bold",
           },
+          "& .MuiDataGrid-columnHeaderCheckbox": {
+            color: "#0d4072",
+            fontWeight: "bold",
+            "& .MuiDataGrid-columnHeaderDraggableContainer": {
+              display: "none",
+            },
+          },
+          "& .MuiDataGrid-columnHeaderCheckbox::after": {
+            content: '"Is Purchased?"',
+          },
         },
       },
     },

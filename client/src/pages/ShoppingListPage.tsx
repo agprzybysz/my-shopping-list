@@ -1,10 +1,11 @@
-import { Box, Typography, Button, Checkbox } from "@mui/material";
+import { Box, Typography, Button } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   getShoppingListById,
   deleteProductFromShoppingList,
   updateProductInShoppingList,
+  updateProductsSelection,
 } from "../api/service";
 import { ProductProps } from "../types/types";
 import { Loader } from "../components/Loader";
@@ -12,7 +13,7 @@ import { Error } from "../components/Error";
 import { NoResult } from "../components/NoResult";
 import { DataGridTable } from "../components/DataGrid";
 import { AddNewRecord } from "../components/AddNewRecord";
-import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
 import React from "react";
 import { useSnackbarHook } from "../hooks/useSnackbarHook";
 import { NOTIFICATION_MESSAGES } from "../configs/notificationMessages";
@@ -25,7 +26,7 @@ export const ShoppingList = () => {
   const { handleShowSnackbar } = useSnackbarHook();
 
   const columns: GridColDef[] = [
-    {
+    /*{
       field: "isPurchased",
       headerName: "Is Purchased?",
       width: 130,
@@ -35,7 +36,11 @@ export const ShoppingList = () => {
       renderCell: (params: GridRenderCellParams) => (
         <Checkbox checked={params.value} size="small" />
       ),
-    },
+    },*/
+    /*   {
+      ...GRID_CHECKBOX_SELECTION_COL_DEF,
+      width: 100,
+    },*/
     {
       field: "productName",
       headerName: "Product Name",
@@ -94,6 +99,17 @@ export const ShoppingList = () => {
     },
   });
 
+  const changeSelectionOfRowMutation = useMutation({
+    mutationFn: (ids: string[]) => updateProductsSelection(ids, id),
+    onError: (error) => {
+      console.log(error);
+      handleShowSnackbar(NOTIFICATION_MESSAGES.ERROR, "error");
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["shoppingListData"] });
+    },
+  });
+
   const handleDeleteProduct = (productId: string) => {
     deleteProductMutation.mutate(productId);
   };
@@ -106,6 +122,10 @@ export const ShoppingList = () => {
       updateProductMutation.mutate(updatedProduct);
     }
     return updatedProduct;
+  };
+
+  const handleIsPurchasedChange = (productIds: string[]) => {
+    changeSelectionOfRowMutation.mutate(productIds);
   };
 
   return (
@@ -155,6 +175,7 @@ export const ShoppingList = () => {
             initialColumns={columns}
             handleDelete={handleDeleteProduct}
             processRowUpdate={handleProcessRowUpdate}
+            handleSelectionChange={handleIsPurchasedChange}
           />
         </Box>
       )}

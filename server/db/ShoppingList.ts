@@ -29,8 +29,20 @@ export const shoppingLists: ShoppingListProp[] = [
         notes: "high priority",
         isPurchased: false,
       },
-      { id: "2", productName: "milk", quantity: "2l", notes: "", isPurchased: true },
-      { id: "3", productName: "butter", quantity: "1", notes: "", isPurchased: false },
+      {
+        id: "2",
+        productName: "milk",
+        quantity: "2l",
+        notes: "",
+        isPurchased: true,
+      },
+      {
+        id: "3",
+        productName: "butter",
+        quantity: "1",
+        notes: "",
+        isPurchased: true,
+      },
     ],
   },
   {
@@ -89,7 +101,13 @@ export const shoppingLists: ShoppingListProp[] = [
         notes: "",
         isPurchased: false,
       },
-      { id: "4", productName: "Lemon", quantity: "3", notes: "", isPurchased: false },
+      {
+        id: "4",
+        productName: "Lemon",
+        quantity: "3",
+        notes: "",
+        isPurchased: false,
+      },
     ],
   },
 ];

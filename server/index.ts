@@ -95,3 +95,20 @@ app.patch("/lists/:id", (req, res) => {
   lists[listIndex].products[productIndex] = updatedProduct;
   return res.send(updatedProduct);
 });
+
+//update product is purchased in list
+app.patch("/lists/:id/selection", (req, res) => {
+  const { id }: { id: string } = req.params;
+  const selectionArr = [...req.body];
+  const listIndex: number = lists.findIndex((i) => i.id === id);
+
+  lists[listIndex].products.forEach((element, index) => {
+    if (selectionArr.includes(element.id)) {
+      lists[listIndex].products[index].isPurchased = true;
+    } else {
+      lists[listIndex].products[index].isPurchased = false;
+    }
+  });
+
+  return res.send();
+});
