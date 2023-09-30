@@ -36,7 +36,6 @@ export const DataGridTable = ({
   const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
     {}
   );
-  console.log(rowModesModel);
   const initialSelection = initialRows
     .filter((row) => row.isPurchased === true)
     .map((row) => row.id);

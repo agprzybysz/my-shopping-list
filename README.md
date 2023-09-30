@@ -2,7 +2,7 @@
 
 ## About The Project
 
-This app help users to organize daily shopping be creating lists of products to buy. User can add, remove, update items on list and mark them as purchased.
+This app help users to organize daily shopping by creating lists of products to buy. User can add, remove, update items on list and mark them as purchased.
 
 ![app screenshot](/client/src/assets/app_screenshot.PNG)
 
@@ -27,7 +27,7 @@ The server-side was built with Node and Express.
 
 1. Clone the repository:
    ```sh
-   git clone https://github.com/
+   git clone https://github.com/agprzybysz/my-shopping-list.git
    ```
 2. Navigate to the project directory:
    ```sh
@@ -52,7 +52,7 @@ The server-side was built with Node and Express.
    This command will launch 2 applications which will be available at:
 
    - client - http://localhost:3000
-   - server - http://localhost:8000
+   - server - http://localhost:8000/lists
 
 ## License
 

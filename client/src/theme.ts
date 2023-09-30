@@ -34,6 +34,14 @@ theme = createTheme(theme, {
             content: '"Is Purchased?"',
           },
         },
+        row: {
+          "&.Mui-selected": {
+            backgroundColor: "white",
+            "&:hover": {
+              backgroundColor: "rgba(0, 0, 0, 0.04)",
+            },
+          },
+        },
       },
     },
   },

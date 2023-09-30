@@ -26,25 +26,10 @@ export const ShoppingList = () => {
   const { handleShowSnackbar } = useSnackbarHook();
 
   const columns: GridColDef[] = [
-    /*{
-      field: "isPurchased",
-      headerName: "Is Purchased?",
-      width: 130,
-      description: "Mark as checked product which you bought",
-      type: "boolean",
-      editable: true,
-      renderCell: (params: GridRenderCellParams) => (
-        <Checkbox checked={params.value} size="small" />
-      ),
-    },*/
-    /*   {
-      ...GRID_CHECKBOX_SELECTION_COL_DEF,
-      width: 100,
-    },*/
     {
       field: "productName",
       headerName: "Product Name",
-      width: 250,
+      width: 200,
       editable: true,
     },
     { field: "quantity", headerName: "Quantity", width: 100, editable: true },
