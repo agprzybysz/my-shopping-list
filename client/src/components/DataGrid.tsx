@@ -12,6 +12,7 @@ import {
   GridRowSelectionModel,
   GRID_CHECKBOX_SELECTION_COL_DEF,
 } from "@mui/x-data-grid";
+import { ClickAwayListener } from "@mui/base";
 import { ProductProps } from "../types/types";
 
 type DataGridProps = {
@@ -35,7 +36,7 @@ export const DataGridTable = ({
   const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
     {}
   );
-
+  console.log(rowModesModel);
   const initialSelection = initialRows
     .filter((row) => row.isPurchased === true)
     .map((row) => row.id);
@@ -45,12 +46,25 @@ export const DataGridTable = ({
   const handleRowModesModelChange = (newRowModesModel: GridRowModesModel) => {
     setRowModesModel(newRowModesModel);
   };
-  //update row on single click
+
   const handleRowClick = (params: GridRowParams, event: React.MouseEvent) => {
-    setRowModesModel({
-      ...rowModesModel,
-      [params.id]: { mode: GridRowModes.Edit },
-    });
+    const newRowModesModel = { ...rowModesModel };
+
+    for (const rowId in newRowModesModel) {
+      newRowModesModel[rowId] = { mode: GridRowModes.View };
+    }
+    newRowModesModel[params.id] = { mode: GridRowModes.Edit };
+
+    setRowModesModel(newRowModesModel);
+  };
+  const handleClickAway = () => {
+    const newRowModesModel = { ...rowModesModel };
+
+    for (const rowId in newRowModesModel) {
+      newRowModesModel[rowId] = { mode: GridRowModes.View };
+    }
+
+    setRowModesModel(newRowModesModel);
   };
 
   const columns: GridColDef[] = [
@@ -78,50 +92,52 @@ export const DataGridTable = ({
     },
   ];
   return (
-    <DataGrid
-      autoHeight
-      checkboxSelection
-      rows={initialRows}
-      onRowSelectionModelChange={(
-        newRowSelectionModel: GridRowSelectionModel
-      ) => {
-        setRowSelectionModel(newRowSelectionModel);
-        handleSelectionChange(newRowSelectionModel);
-      }}
-      rowSelectionModel={rowSelectionModel}
-      disableRowSelectionOnClick
-      keepNonExistentRowsSelected
-      columns={columns}
-      initialState={{
-        pagination: { paginationModel: { pageSize: 10 } },
-      }}
-      pageSizeOptions={[5, 10, 25]}
-      rowHeight={35}
-      columnHeaderHeight={45}
-      editMode="row"
-      rowModesModel={rowModesModel}
-      onRowModesModelChange={handleRowModesModelChange}
-      onRowClick={handleRowClick}
-      processRowUpdate={processRowUpdate}
-      localeText={{
-        footerRowSelected: (count) =>
-          count !== 1
-            ? `${count.toLocaleString()} products purchased`
-            : `${count.toLocaleString()} product purchased`,
-        checkboxSelectionHeaderName: "Is Purchased?",
-      }}
-      slots={{
-        noRowsOverlay: () => (
-          <Stack height="100%" alignItems="center" justifyContent="center">
-            No rows
-          </Stack>
-        ),
-        noResultsOverlay: () => (
-          <Stack height="100%" alignItems="center" justifyContent="center">
-            No results found
-          </Stack>
-        ),
-      }}
-    />
+    <ClickAwayListener onClickAway={handleClickAway}>
+      <DataGrid
+        autoHeight
+        checkboxSelection
+        rows={initialRows}
+        onRowSelectionModelChange={(
+          newRowSelectionModel: GridRowSelectionModel
+        ) => {
+          setRowSelectionModel(newRowSelectionModel);
+          handleSelectionChange(newRowSelectionModel);
+        }}
+        rowSelectionModel={rowSelectionModel}
+        disableRowSelectionOnClick
+        keepNonExistentRowsSelected
+        columns={columns}
+        initialState={{
+          pagination: { paginationModel: { pageSize: 10 } },
+        }}
+        pageSizeOptions={[5, 10, 25]}
+        rowHeight={35}
+        columnHeaderHeight={45}
+        editMode="row"
+        rowModesModel={rowModesModel}
+        onRowModesModelChange={handleRowModesModelChange}
+        onRowClick={handleRowClick}
+        processRowUpdate={processRowUpdate}
+        localeText={{
+          footerRowSelected: (count) =>
+            count !== 1
+              ? `${count.toLocaleString()} products purchased`
+              : `${count.toLocaleString()} product purchased`,
+          checkboxSelectionHeaderName: "Is Purchased?",
+        }}
+        slots={{
+          noRowsOverlay: () => (
+            <Stack height="100%" alignItems="center" justifyContent="center">
+              No rows
+            </Stack>
+          ),
+          noResultsOverlay: () => (
+            <Stack height="100%" alignItems="center" justifyContent="center">
+              No results found
+            </Stack>
+          ),
+        }}
+      />
+    </ClickAwayListener>
   );
 };
