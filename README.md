@@ -44,9 +44,9 @@ The server-side was built with Node and Express.
 
    ```sh
    cd client
-   npm run dev
-   cd server
    npm run start
+   cd server
+   npm run dev
    ```
 
    This command will launch 2 applications which will be available at:
