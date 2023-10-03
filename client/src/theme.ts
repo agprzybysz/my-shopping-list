@@ -1,7 +1,12 @@
 import { createTheme } from "@mui/material/styles";
 
 let theme = createTheme({
-  palette: {},
+  palette: {
+    primary: {
+      main: "#1976D2",
+      dark: "#0d4072",
+    },
+  },
 });
 
 theme = createTheme(theme, {
@@ -20,11 +25,11 @@ theme = createTheme(theme, {
       styleOverrides: {
         root: {
           "& .MuiDataGrid-columnHeaderTitle": {
-            color: "#0d4072",
+            color: theme.palette.primary.dark,
             fontWeight: "bold",
           },
           "& .MuiDataGrid-columnHeaderCheckbox": {
-            color: "#0d4072",
+            color: theme.palette.primary.dark,
             fontWeight: "bold",
             "& .MuiDataGrid-columnHeaderDraggableContainer": {
               display: "none",
@@ -33,6 +38,14 @@ theme = createTheme(theme, {
           "& .MuiDataGrid-columnHeaderCheckbox::after": {
             content: '"Is Purchased?"',
           },
+          "& .MuiDataGrid-columnHeader:focus-within": {
+            outlineOffset: 0,
+          },
+          "& MuiCheckbox-root": {
+            "&$checked": {
+              color: "red",
+            },
+          },  
         },
         row: {
           "&.Mui-selected": {

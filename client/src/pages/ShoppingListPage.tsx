@@ -29,14 +29,14 @@ export const ShoppingList = () => {
     {
       field: "productName",
       headerName: "Product Name",
-      width: 200,
+      width: 150,
       editable: true,
     },
     { field: "quantity", headerName: "Quantity", width: 100, editable: true },
     {
       field: "notes",
       headerName: "Notes",
-      minWidth: 200,
+      minWidth: 150,
       flex: 1,
       editable: true,
     },

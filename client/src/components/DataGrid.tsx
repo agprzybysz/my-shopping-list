@@ -36,6 +36,7 @@ export const DataGridTable = ({
   const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
     {}
   );
+  console.log(rowModesModel);
   const initialSelection = initialRows
     .filter((row) => row.isPurchased === true)
     .map((row) => row.id);
@@ -70,13 +71,14 @@ export const DataGridTable = ({
     {
       ...GRID_CHECKBOX_SELECTION_COL_DEF,
       width: 150,
+      sortable: true,
     },
     ...initialColumns,
     {
       field: "actions",
       type: "actions",
       headerName: "Actions",
-      width: 200,
+      width: 100,
       cellClassName: "actions",
       getActions: ({ id }: GridRowModel) => {
         return [
