@@ -6,7 +6,7 @@ export type Product = {
   isPurchased: boolean;
 };
 
-export type ShoppingListProp = {
+export type ShoppingListProps = {
   id: string;
   title: string;
   shop: string;
@@ -15,7 +15,7 @@ export type ShoppingListProp = {
 };
 
 //initaial data sample
-export const shoppingLists: ShoppingListProp[] = [
+export const shoppingLists: ShoppingListProps[] = [
   {
     id: "0",
     title: "Weekly shopping",
