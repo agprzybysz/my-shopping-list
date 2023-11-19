@@ -14,7 +14,7 @@ import * as yup from "yup";
 type AddNewRecordComponentProps = {
   isOpen: boolean;
   handleClose: () => void;
-  listId: string;
+  listId: number;
 };
 
 const defaultValues: AddNewProductProps = {

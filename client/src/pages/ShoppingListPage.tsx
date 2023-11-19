@@ -45,7 +45,7 @@ export const ShoppingList = () => {
   const { id } = useParams<keyof ListParams>() as ListParams;
   const { data, isLoading, isError, isSuccess } = useQuery({
     queryKey: ["shoppingListData", id],
-    queryFn: () => getShoppingListById(id),
+    queryFn: () => getShoppingListById(Number(id)),
   });
 
   const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
@@ -53,8 +53,8 @@ export const ShoppingList = () => {
 
   const queryClient = useQueryClient();
   const deleteProductMutation = useMutation({
-    mutationFn: (productId: string) =>
-      deleteProductFromShoppingList(productId, id),
+    mutationFn: (productId: number) =>
+      deleteProductFromShoppingList(productId, Number(id)),
     onError: (error) => {
       console.log(error);
       handleShowSnackbar(NOTIFICATION_MESSAGES.ERROR, "error");
@@ -70,7 +70,7 @@ export const ShoppingList = () => {
 
   const updateProductMutation = useMutation({
     mutationFn: (updatedProduct: ProductProps) =>
-      updateProductInShoppingList(updatedProduct, id),
+      updateProductInShoppingList(updatedProduct, Number(id)),
     onError: (error) => {
       console.log(error);
       handleShowSnackbar(NOTIFICATION_MESSAGES.ERROR, "error");
@@ -85,7 +85,7 @@ export const ShoppingList = () => {
   });
 
   const changeSelectionOfRowMutation = useMutation({
-    mutationFn: (ids: string[]) => updateProductsSelection(ids, id),
+    mutationFn: (ids: number[]) => updateProductsSelection(ids, Number(id)),
     onError: (error) => {
       console.log(error);
       handleShowSnackbar(NOTIFICATION_MESSAGES.ERROR, "error");
@@ -95,7 +95,7 @@ export const ShoppingList = () => {
     },
   });
 
-  const handleDeleteProduct = (productId: string) => {
+  const handleDeleteProduct = (productId: number) => {
     deleteProductMutation.mutate(productId);
   };
 
@@ -109,7 +109,7 @@ export const ShoppingList = () => {
     return updatedProduct;
   };
 
-  const handleIsPurchasedChange = (productIds: string[]) => {
+  const handleIsPurchasedChange = (productIds: number[]) => {
     changeSelectionOfRowMutation.mutate(productIds);
   };
 
@@ -153,7 +153,7 @@ export const ShoppingList = () => {
           <AddNewRecord
             isOpen={isModalOpen}
             handleClose={handleCloseModal}
-            listId={id}
+            listId={Number(id)}
           />
           <DataGridTable
             initialRows={data.products}

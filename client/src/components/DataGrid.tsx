@@ -18,7 +18,7 @@ import { ProductProps } from "../types/types";
 type DataGridProps = {
   initialColumns: GridColDef[];
   initialRows: ProductProps[];
-  handleDelete: (id: string) => void;
+  handleDelete: (id: number) => void;
   processRowUpdate: (
     newRow: ProductProps,
     originalRow: ProductProps
@@ -36,7 +36,7 @@ export const DataGridTable = ({
   const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
     {}
   );
-  console.log(rowModesModel);
+
   const initialSelection = initialRows
     .filter((row) => row.isPurchased === true)
     .map((row) => row.id);
@@ -59,7 +59,6 @@ export const DataGridTable = ({
   };
   const handleClickAway = () => {
     const newRowModesModel = { ...rowModesModel };
-
     for (const rowId in newRowModesModel) {
       newRowModesModel[rowId] = { mode: GridRowModes.View };
     }
@@ -93,7 +92,7 @@ export const DataGridTable = ({
     },
   ];
   return (
-    <ClickAwayListener onClickAway={handleClickAway}>
+    <ClickAwayListener onClickAway={handleClickAway} mouseEvent="onMouseDown">
       <DataGrid
         autoHeight
         checkboxSelection

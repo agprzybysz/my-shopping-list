@@ -30,7 +30,7 @@ export const ShoppingListsView = () => {
   const { handleShowSnackbar } = useSnackbarHook();
 
   const deleteListMutation = useMutation({
-    mutationFn: (id: string) => deleteShoppingList(id),
+    mutationFn: (id: number) => deleteShoppingList(id),
     onError: (error) => {
       console.log(error);
       handleShowSnackbar(NOTIFICATION_MESSAGES.ERROR, "error");
@@ -44,7 +44,11 @@ export const ShoppingListsView = () => {
   const listMenu: JSX.Element[] =
     isSuccess && data.length > 0
       ? data
-          .sort((item1, item2) => new Date(item2.createdAt).getTime() - new Date(item1.createdAt).getTime())
+          .sort(
+            (item1, item2) =>
+              new Date(item2.createdAt).getTime() -
+              new Date(item1.createdAt).getTime()
+          )
           .map((item) => (
             <ListItem
               key={item.id}

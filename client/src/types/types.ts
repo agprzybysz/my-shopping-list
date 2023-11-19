@@ -1,5 +1,5 @@
 export type ProductProps = {
-  id: string;
+  id: number;
   productName: string;
   quantity: string;
   notes: string;
@@ -7,7 +7,7 @@ export type ProductProps = {
 };
 
 export type GetShoppingListsProps = {
-  id: string;
+  id: number;
   title: string;
   shop: string;
   createdAt: string;
@@ -24,4 +24,3 @@ export type AddNewProductProps = {
   quantity: string;
   notes: string | undefined | null;
 };
-

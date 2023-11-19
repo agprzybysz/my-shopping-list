@@ -14,7 +14,7 @@ export const getAllShoppingLists = async () => {
   return response.data;
 };
 
-export const getShoppingListById = async (listId: string) => {
+export const getShoppingListById = async (listId: number) => {
   const response: AxiosResponse<GetShoppingListsProps | undefined> =
     await axios({
       method: "get",
@@ -31,7 +31,7 @@ export const createShoppingList = async (newList: CreateShoppingListsProps) => {
   return response.data;
 };
 
-export const deleteShoppingList = async (listId: string) => {
+export const deleteShoppingList = async (listId: number) => {
   const response: AxiosResponse<void> = await axios.delete(
     `${BASE_URL}/lists`,
     {
@@ -43,7 +43,7 @@ export const deleteShoppingList = async (listId: string) => {
 
 export const addProductToShoppingList = async (
   dataSubmitted: AddNewProductProps,
-  id: string
+  id: number
 ) => {
   const response: AxiosResponse<GetShoppingListsProps> = await axios.post(
     `${BASE_URL}/lists/${id}`,
@@ -53,8 +53,8 @@ export const addProductToShoppingList = async (
 };
 
 export const deleteProductFromShoppingList = async (
-  productId: string,
-  id: string
+  productId: number,
+  id: number
 ) => {
   const response: AxiosResponse<void> = await axios.delete(
     `${BASE_URL}/lists/${id}`,
@@ -67,7 +67,7 @@ export const deleteProductFromShoppingList = async (
 
 export const updateProductInShoppingList = async (
   updatedProduct: ProductProps,
-  id: string
+  id: number
 ) => {
   const response: AxiosResponse<ProductProps> = await axios.patch(
     `${BASE_URL}/lists/${id}`,
@@ -75,7 +75,7 @@ export const updateProductInShoppingList = async (
   );
   return response.data;
 };
-export const updateProductsSelection = async (ids: string[], id: string) => {
+export const updateProductsSelection = async (ids: number[], id: number) => {
   const response: AxiosResponse<ProductProps> = await axios.patch(
     `${BASE_URL}/lists/${id}/selection`,
     ids
