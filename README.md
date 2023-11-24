@@ -2,13 +2,13 @@
 
 ## About The Project
 
-This app help users to organize daily shopping by creating lists of products to buy. User can add, remove, update items on list and mark them as purchased.
-
-![app screenshot](/client/src/assets/app_screenshot.PNG)
-
+This app help users to organize daily shopping by creating lists of products to buy. User can add, remove, update items on list and mark them as purchased.<br/>
 This shopping list app was built with React and TypeScript.
 The client-side was set up with the use of create-react-app.
-The server-side was built with Node and Express.
+The server-side was built with Node, Express, SQLite database and Sequelize ORM.
+<br/>
+<br/>
+![app screenshot](/client/src/assets/app_screenshot.PNG)
 
 ### Built With
 
@@ -20,6 +20,8 @@ The server-side was built with Node and Express.
 [![React Hook Form](https://img.shields.io/badge/React%20Hook%20Form-%23EC5990.svg?style=for-the-badge&logo=reacthookform&logoColor=white)][React-Hook-Form-url]
 [![Node](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)][Node-url]
 [![Express](https://img.shields.io/badge/Express.js-404D59?style=for-the-badge)][Express-url]
+[![SQLite](https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white)][SQLite-url]
+[![Sequelize](https://img.shields.io/badge/Sequelize-52B0E7?style=for-the-badge&logo=Sequelize&logoColor=white)][Sequelize-url]
 
 ## Getting Started
 
@@ -68,3 +70,5 @@ The server-side was built with Node and Express.
 [React-Hook-Form-url]: https://react-hook-form.com/
 [Node-url]: https://nodejs.org/en
 [Express-url]: https://expressjs.com/
+[SQLite-url]: https://www.sqlite.org/index.html
+[Sequelize-url]: https://sequelize.org/
